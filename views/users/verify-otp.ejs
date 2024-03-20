@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>RUCCI</title>
+    <meta name="keywords" content="HTML5 Template" />
+    <meta name="description" content="Rucci - Bootstrap eCommerce Template" />
+    <meta name="author" content="p-themes" />
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/images/icons/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/images/icons/favicon-32x32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/images/icons/favicon-16x16.png" />
+    <link rel="manifest" href="/assets/images/icons/site.html" />
+    <link
+      rel="mask-icon"
+      href="/assets/images/icons/safari-pinned-tab.svg"
+      color="#666666" />
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico" />
+    <meta name="apple-mobile-web-app-title" content="Molla" />
+    <meta name="application-name" content="Molla" />
+    <meta name="msapplication-TileColor" content="#cc9966" />
+    <meta
+      name="msapplication-config"
+      content="/assets/images/icons/browserconfig.xml" />
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+
+  <body>
+    <div class="page-wrapper">
+      <main class="main">
+        <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+          <div class="container">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Rucci</a></li>
+              <li class="breadcrumb-item"><a href="#">Otp Verification</a></li>
+              <li class="ml-auto"><a href="/signin">LOG IN</a></li>
+            </ol>
+          </div>
+        </nav>
+
+
+
+
+
+
+        <div
+          class="error-content text-center"
+          style="background-image: url(assets/images/backgrounds/error-bg.jpg)">
+          <div class="container">
+            <div class="row justify-content-center">
+              <div class="col-md-4 otp-box">
+                <h1 class="text-center" style="font-size: 30px">
+                  OTP VERIFICATION PAGE
+                </h1>
+
+                <form action="/verify-otp" method="POST" class="mb-3">
+                  <label for="otp" class="form-label"
+                    >Please enter the OTP sent to your email</label
+                  >
+
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      id="otp1"
+                      name="otp1"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, 'otp2', 'otp1')" />
+                    <input
+                      type="text"
+                      id="otp2"
+                      name="otp2"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, 'otp3', 'otp1', 'otp2')" />
+                    <input
+                      type="text"
+                      id="otp3"
+                      name="otp3"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, 'otp4', 'otp2', 'otp3')" />
+                    <input
+                      type="text"
+                      id="otp4"
+                      name="otp4"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, 'otp5', 'otp3', 'otp4')" />
+                    <input
+                      type="text"
+                      id="otp5"
+                      name="otp5"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, 'otp6', 'otp4', 'otp5')" />
+                    <input
+                      type="text"
+                      id="otp6"
+                      name="otp6"
+                      class="form-control otp-input"
+                      required
+                      maxlength="1"
+                      oninput="moveToNext(this, null, 'otp5', 'otp6')" />
+                  </div>
+
+                  <div id="timer" style="font-weight: bold; margin-top: 10px;"></div>
+                  
+                  
+
+
+
+
+                  <button
+                    type="submit"
+                    class="btn btn-outline-primary-2 btn-minwidth-lg mt-2">
+                    <span>Verify OTP</span>
+                    <i class="icon-long-arrow-right"></i>
+                  </button>
+                  <!-- Display success or error messages -->
+                  <% if (typeof successMessage !== 'undefined') { %>
+                  <div class="alert alert-success"><%= successMessage %></div>
+                  <% } else if (typeof errorMessage !== 'undefined') { %>
+                  <div class="alert alert-danger"><%= errorMessage %></div>
+                  <% } %>
+                </form>
+
+              
+                <form action="/resend-otp" method="POST" onsubmit="resetTimer()">
+                  <input type="hidden" name="email" value="<%= email %>" />
+                  <button type="submit" class="btn btn-outline-primary-2 btn-minwidth-lg btn-secondary mt-2">
+                    <span>Resent OTP</span>
+                    <i class="icon-long-arrow-right"></i>
+                  </button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <button id="scroll-top" title="Back to Top">
+      <i class="icon-arrow-up"></i>
+    </button>
+
+
+    <script>
+      let timer;
+      let countdown = 60; // Countdown time in seconds
+      let timerActive = true; // Flag to control timer display
+    
+      function startTimer() {
+        timer = setInterval(function () {
+          countdown--;
+          updateTimerDisplay(); // Update timer display on each countdown tick
+    
+          if (countdown <= 0) {
+            clearInterval(timer);
+            timerActive = false; // Timer is no longer active
+            document.getElementById("timer").innerHTML = `The OTP has expired. Please press <span style="color: red;">Resend OTP</span> to receive a new one.`;
+          }
+        }, 1000);
+      }
+    
+      // Update the timer display
+      function updateTimerDisplay() {
+  const timerDisplay = document.getElementById("timer");
+  if (timerActive) {
+    // Apply styles to specific word and remove bold for all text
+    timerDisplay.innerHTML = `Kindly enter the OTP before:  <span style="color: red;">${countdown}</span> seconds`;
+    timerDisplay.style.fontFamily = "Arial, sans-serif";
+    timerDisplay.style.fontSize = "16px";
+    timerDisplay.style.color = "#333";
+    timerDisplay.style.fontWeight = "normal"; // Remove bold for all text
+    // Add more styling properties as needed
+  } else {
+    timerDisplay.innerHTML = ""; // Clear the timer display
+  }
+}
+
+
+    
+      // Start the timer when the page loads or when OTP is sent
+      startTimer();
+    
+      // Function to handle OTP verification success
+      function handleSuccessMessage() {
+        timerActive = false; // Stop the timer
+        updateTimerDisplay(); // Update timer display
+      }
+    
+      // Function to handle OTP verification failure
+      function handleErrorMessage() {
+        timerActive = false; // Stop the timer
+        updateTimerDisplay(); // Update timer display
+      }
+    
+      // ... rest of your existing JavaScript code ...
+    </script>
+    
+
+
+    <script>
+      function moveToNext(currentInput, nextInputId, prevInputId) {
+        const maxLength = parseInt(currentInput.getAttribute("maxlength"), 10);
+        const currentLength = currentInput.value.length;
+
+        if (currentLength >= maxLength) {
+          if (nextInputId) {
+            document.getElementById(nextInputId).focus();
+          }
+        } else if (currentLength === 0 && prevInputId) {
+          document.getElementById(prevInputId).focus();
+        }
+
+        if (currentLength === 0 && currentInput) {
+          currentInput.value = "";
+        }
+      }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

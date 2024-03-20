@@ -1,0 +1,225 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <div class="card">
+         <div class="card-body">
+            <div class="page-header">
+               <h3 class="page-title">MANAGE ORDERS</h3>
+            </div>
+            <div class="row">
+              
+               <div class="col-6 grid-margin stretch-card">
+                  <div class="card">
+                     <div class="card-body">
+                        <form class="forms-sample" onsubmit="updateOrderStatus(event)">
+                           <div class="form-group">
+                              <label for="orderID">Order ID</label>
+                              <% if (order && order._id) { %>
+                              <input type="text" class="form-control" id="orderID" name="orderId" value="<%= order._id %>" readonly style="color: #fff; background-color: #333;::placeholder { color: #555; }">
+                              <% } else { %>
+                              <p>No order found</p>
+                              <% } %>
+                           </div>
+                           <div class="form-group">
+                              <label for="exampleSelectStatus">Order Status</label>
+                              <select class="form-control" id="exampleSelectStatus" name="status" style="color: #fff; background-color: #333;">
+                                 <option value="Pending" <% if(order && order.OrderStatus === 'Pending') { %> selected <% } %> style="color: #fff;">Pending</option>
+                                 <option value="Cancelled" <% if(order && order.OrderStatus === 'Cancelled') { %> selected <% } %> style="color: #fff;">Cancelled</option>
+                                 <option value="Shipped" <% if(order && order.OrderStatus === 'Shipped') { %> selected <% } %> style="color: #fff;">Shipped</option>
+                                 <option value="Delivered" <% if(order && order.OrderStatus === 'Delivered') { %> selected <% } %> style="color: #fff;">Delivered</option>
+                              </select>
+                           </div>
+                           <button type="submit" style="padding: 10px; color: #fff; background-color: #333;" class="btn btn-outline-primary">Update Status</button>
+                           <button style="padding: 10px; margin-left: 10px; color: #fff; background-color: #333;" class="btn btn-outline-secondary">Cancel</button>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-6 grid-margin stretch-card">
+                  <div class="card">
+                     <div class="card-body">
+                        <form class="forms-sample">
+                           <div class="form-group row">
+                              <label for="OrderDate" class="col-sm-3 col-form-label">Order Date</label>
+                              <div class="col-sm-9">
+                                 <input type="text" class="form-control" id="OrderDate" value="<%= order.orderDate %>" readonly
+                                    style="color: #fff; background-color: #333;::placeholder { color: #555; }">
+                              </div>
+                           </div>
+                           <div class="form-group row">
+                              <label for="PaymentMethod" class="col-sm-3 col-form-label">Payment Method</label>
+                              <div class="col-sm-9">
+                                 <input type="text" class="form-control" id="PaymentMethod" value="<%= order.paymentMethod %>" readonly
+                                    style="color: #fff; background-color: #333;::placeholder { color: #555; }">
+                              </div>
+                           </div>
+                           <div class="form-group row">
+                              <label for="TotalAmount" class="col-sm-3 col-form-label">Total Amount</label>
+                              <div class="col-sm-9">
+                                 <input type="text" class="form-control" id="TotalAmount" value="<%= order.totalAmount %>" readonly
+                                    style="color: #fff; background-color: #333;::placeholder { color: #555; }">
+                              </div>
+                           </div>
+                           <!-- Other form fields -->
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-4 stretch-card">
+                  <div class="card">
+                     <div class="table-responsive">
+                        <table class="table table-bordered table-contextual">
+                           <thead>
+                              <tr>
+                                 <th>Shipping Address</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr class="table-secondary">
+                                 <td style="color: #fff; background-color: #333;">
+                                    <% if (order && order.shippingAddress) { %>
+                                    <p style="color: #fff;"><%= order.shippingAddress.firstName %> <%= order.shippingAddress.lastName %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.hcName %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.streetName %>,  <%= order.shippingAddress.city %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.state %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.pincode %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.email %></p>
+                                    <p style="color: #fff;"> <%= order.shippingAddress.mobile %></p>
+                                    <% } else { %>
+                                    <p>No shipping address available</p>
+                                    <% } %>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-8 grid-margin stretch-card">
+                  <div class="card" style="margin-top: 10px;">
+                     <div class="card-body">
+                        <!-- ... previous HTML code -->
+                        <div class="table-responsive">
+                           <!-- ... previous HTML code -->
+                           <table class="table table-bordered table-contextual">
+                              <thead>
+                                 <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Product Image</th>
+                                    <th>Quantity</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <% if (order && order.products && order.products.length > 0) { %>
+                                 <% order.products.forEach(function(product, index) { %>
+                                 <tr>
+                                    <td><%= index + 1 %></td>
+                                    <% if (product.productId && product.productId.name) { %>
+                                    <td><%= product.productId.name %></td>
+                                    <% } else { %>
+                                    <td>N/A</td>
+                                    <% } %>
+                                    <td>
+                                       <% if (product.productId && product.productId.image && product.productId.image.length > 0) { %>
+                                       <img src="data:<%= product.productId.image[0].contentType %>;base64,<%= product.productId.image[0].data.toString('base64') %>" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
+                                       <% } else { %>
+                                       No Image Available
+                                       <% } %>
+                                    </td>
+                                    <td><%= product.quantity %></td>
+                                 </tr>
+                                 <% }) %>
+                                 <% } else { %>
+                                 <tr>
+                                    <td colspan="6">No products found for this order</td>
+                                 </tr>
+                                 <% } %>
+                              </tbody>
+                           </table>
+                           <!-- ... rest of the HTML code -->
+                        </div>
+                        <!-- ... rest of the HTML code -->
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- main-panel ends -->
+   </div>
+   <!-- page-body-wrapper ends -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   function updateOrderStatus(event) {
+       event.preventDefault(); // Prevents the default form submission
+   
+       // Fetch request
+       fetch('/updateOrderStatus', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+               orderId: document.getElementById('orderID').value,
+               status: document.getElementById('exampleSelectStatus').value,
+           }),
+       })
+       .then(response => {
+         Swal.fire({
+                 icon: 'success',
+                 title: "OK",
+                 text: "Updated!",
+                 timer:3000
+             })
+           // Handle the response here
+           console.log(response);
+       })
+       .catch(error => {
+           // Handle errors here
+           console.error('Error:', error);
+       });
+   }
+</script>
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+     document.querySelectorAll('.update-status').forEach(function(button) {
+       button.addEventListener('click', function() {
+         const index = this.dataset.index;
+         const selectedStatus = document.getElementById('status_' + index).value;
+         const orderId = '<%= order._id %>'; // Replace with the correct method to fetch the order ID
+           console.log("clike")
+         // Fetch API request to send the updated status to the server
+         fetch('/updateProductOrderStatus', {
+           method: 'POST',
+           headers: {
+             'Content-Type': 'application/json',
+           },
+           body: JSON.stringify({
+             orderId: orderId,
+             productIndex: index,
+             status: selectedStatus,
+           }),
+         })
+           .then(response => {
+             if (!response.ok) {
+               throw new Error(`HTTP error! Status: ${response.status}`);
+             }
+             alert.message(data.message)
+           })
+           .then(data => {
+             // Handle success response, maybe show a message to the admin
+             console.log(data);
+           })
+           .catch(error => {
+             // Handle error response, maybe show an error message
+             console.error(error);
+           });
+       });
+     });
+   });
+   
+</script>
+<%- include('../layouts/adminFooter') %>

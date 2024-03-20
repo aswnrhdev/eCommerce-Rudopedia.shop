@@ -1,0 +1,432 @@
+<%- include('../layouts/header') %>
+
+<main class="main">
+    <div class="container">
+       <div class="intro-slider-container slider-container-ratio mb-2">
+          <div class="intro-slider owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{"nav": false}'>
+             <div class="intro-slide">
+                <figure class="slide-image">
+                   <picture>
+                      <source media="(max-width: 480px)" srcset="assets/images/demos/demo-10/slider/slide-2-480w.jpg">
+                      <img src="assets/images/demos/demo-10/slider/slide-1.png" alt="Image Desc">
+                   </picture>
+                </figure>
+                
+                <div class="intro-content">
+                   <!-- <h3 class="intro-subtitle">Trending Now</h3> -->
+                   <h1 class="intro-title text-white">Edgy skate sneakers.</h1>
+                   <a href="/shop" class="btn btn-white-primary btn-round" style="margin-top: 20px;">
+                   <span>SHOP NOW</span>
+                   <i class="icon-long-arrow-right"></i>
+                   </a>
+                </div>
+             </div>
+             <!-- End .intro-slide -->
+             <div class="intro-slide">
+                <figure class="slide-image">
+                   <picture>
+                      <source media="(max-width: 480px)" srcset="assets/images/demos/demo-10/slider/slide-3-480w.jpg">
+                      <img src="assets/images/demos/demo-10/slider/slide-3.png" alt="Image Desc">
+                   </picture>
+                </figure>
+                <!-- End .slide-image -->
+                <div class="intro-content">
+                   <h3 class="intro-subtitle text-white">Deal of the month</h3>
+                   <!-- End .h3 intro-subtitle -->
+                   <h1 class="intro-title text-white">Limited Edition Rudo Sneakers</h1>
+                   <!-- End .intro-title -->
+                   <div class="intro-price text-white">Flat 22% Off</div>
+                   <a href="/shop" class="btn btn-white-primary btn-round">
+                   <span>SHOP NOW</span>
+                   <i class="icon-long-arrow-right"></i>
+                   </a>
+                </div>
+                <!-- End .intro-content -->
+             </div>
+             <!-- End .intro-slide -->
+          </div>
+          <!-- End .intro-slider owl-carousel owl-simple -->
+          <span class="slider-loader"></span><!-- End .slider-loader -->
+       </div>
+       <!-- End .intro-slider-container -->
+    </div>
+    
+    <div class="icon-boxes-container icon-boxes-separator bg-transparent">
+       <div class="container">
+          <div class="row">
+             <div class="col-sm-6 col-lg-3">
+                <div class="icon-box icon-box-side">
+                   <span class="icon-box-icon text-primary">
+                   <i class="icon-rocket"></i>
+                   </span>
+                   <div class="icon-box-content">
+                      <h3 class="icon-box-title">Free Shipping</h3>
+                      <!-- End .icon-box-title -->
+                      <p>Orders ₹500 or more</p>
+                   </div>
+                   <!-- End .icon-box-content -->
+                </div>
+                <!-- End .icon-box -->
+             </div>
+             <!-- End .col-sm-6 col-lg-3 -->
+             <div class="col-sm-6 col-lg-3">
+                <div class="icon-box icon-box-side">
+                   <span class="icon-box-icon text-primary">
+                   <i class="icon-rotate-left"></i>
+                   </span>
+                   <div class="icon-box-content">
+                      <h3 class="icon-box-title">Free Returns</h3>
+                      <!-- End .icon-box-title -->
+                      <p>Within 30 days</p>
+                   </div>
+                   <!-- End .icon-box-content -->
+                </div>
+                <!-- End .icon-box -->
+             </div>
+             <!-- End .col-sm-6 col-lg-3 -->
+             <div class="col-sm-6 col-lg-3">
+                <div class="icon-box icon-box-side">
+                   <span class="icon-box-icon text-primary">
+                   <i class="icon-info-circle"></i>
+                   </span>
+                   <div class="icon-box-content">
+                      <h3 class="icon-box-title">Get 20% Off 1 Item</h3>
+                      <!-- End .icon-box-title -->
+                      <p>when you sign up</p>
+                   </div>
+                   <!-- End .icon-box-content -->
+                </div>
+                <!-- End .icon-box -->
+             </div>
+             <!-- End .col-sm-6 col-lg-3 -->
+             <div class="col-sm-6 col-lg-3">
+                <div class="icon-box icon-box-side">
+                   <span class="icon-box-icon text-primary">
+                   <i class="icon-life-ring"></i>
+                   </span>
+                   <div class="icon-box-content">
+                      <h3 class="icon-box-title">We Support</h3>
+                      <!-- End .icon-box-title -->
+                      <p>24/7 amazing services</p>
+                   </div>
+                   <!-- End .icon-box-content -->
+                </div>
+                <!-- End .icon-box -->
+             </div>
+             <!-- End .col-sm-6 col-lg-3 -->
+          </div>
+          <!-- End .row -->
+       </div>
+       <!-- End .container -->
+    </div>
+    <!-- End .icon-boxes-container -->
+
+    <div class="bg-light pt-5 pb-10 mb-3">
+       <div class="container">
+          <div class="heading heading-center mb-3">
+             <h2 class="title-lg">PRODUCTS</h2>
+             <!-- End .title -->
+          </div>
+          <!-- End .heading -->
+          <div class="tab-content tab-content-carousel">
+             <div class="tab-pane tab-pane-shadow p-0 fade show active" id="new-all-tab" role="tabpanel" aria-labelledby="new-all-link">
+                <div class="owl-carousel owl-simple carousel-equal-height" data-toggle="owl" 
+                   data-owl-options='{
+                   "nav": false, 
+                   "dots": true,
+                   "margin": 0,
+                   "loop": false,
+                   "responsive": {
+                   "0": {
+                   "items":2
+                   },
+                   "480": {
+                   "items":2
+                   },
+                   "768": {
+                   "items":3
+                   },
+                   "992": {
+                   "items":4
+                   },
+                   "1200": {
+                   "items":4,
+                   "nav": true
+                   }
+                   }
+                   }'>
+                   <% products.forEach(product => { %>
+                     <% if (product.isListed) { %>
+                        <div class="product product-3 text-center">
+                           <figure class="product-media">
+                              <% if (product.quantity === 0) { %>
+                                 <span class="product-label label-primary">Out Of Stock</span>
+                              <% } else if (product.catOfferPrice !== null) { %>
+                                 <span class="product-label label-primary">Cat Sale</span>
+                                 <span class="product-label label-sale"><%= product.offer.offerDiscount %>% off</span>
+                              <% } else if (product.offerPrice !== null) { %>
+                                 <span class="product-label label-primary">Sale</span>
+                                 <span class="product-label label-sale"><%= product.offer.offerDiscount %>% off</span>
+                              <% } %>
+                              <a href="/productDetails/<%= product._id %>">
+                                 <img src="data:<%= product.image[0].contentType %>;base64, <%= product.image[0].data.toString('base64') %>" alt="Product image" class="product-image">
+                              </a>
+                              <div class="product-action-vertical">
+                                 <a href="#" class="btn-product-icon btn-wishlist btn-expandable addToWishlistBtn" data-prodId="<%= product._id %>">
+                                    <span>add to wishlist</span>
+                                 </a>
+                              </div>
+                           </figure>
+                           <div class="product-body">
+                              <div class="product-cat">
+                                 <a href="#"><%= product.category %></a>
+                              </div>
+                              <h3 class="product-title"><a href="/productDetails/<%= product._id %>"><%= product.name %></a></h3>
+                              <div class="product-price">
+                                 <% if (product.quantity === 0) { %>
+                                    <span class="out-price">Out Of Stock</span>
+                                 <% } else if (product.catOfferPrice !== null) { %>
+                                    <span class="new-price">Now ₹<%= product.catOfferPrice.toFixed(2) %></span>
+                                    <span class="old-price">₹<%= product.price.toFixed(2) %></span>
+                                 <% } else if (product.offerPrice !== null) { %>
+                                    <span class="new-price">Now ₹<%= product.offerPrice.toFixed(2) %></span>
+                                    <span class="old-price">₹<%= product.price.toFixed(2) %></span>
+                                 <% } else { %>
+                                    <span class="price">₹<%= product.price.toFixed(2) %></span>
+                                 <% } %>
+                              </div>
+                           </div>
+                           <div class="product-footer">
+                              <div class="ratings-container">
+                                 <div class="ratings">
+                                    <div class="ratings-val" style="width: 60%;"></div>
+                                 </div>
+                                 <span class="ratings-text">(4 Reviews)</span>
+                              </div>
+                              <div class="product-action">
+                                
+                                    <a class="btn-product btn-cart addToCartBtn" data-prodId="<%= product._id %>"><span>add to cart</span></a>
+                               
+                              </div>
+                           </div>
+                        </div>
+                     <% } %>
+                  <% }); %>
+                  
+                   
+                </div>
+                <!-- End .owl-carousel -->
+             </div>
+             <!-- .End .tab-pane -->
+          </div>
+          <!-- End .tab-content -->
+       </div>
+       <!-- End .container -->
+    </div>
+    <!-- End .bg-light -->
+    <div class="container">
+       <div class="row justify-content-center">
+          <div class="col-sm-6 col-md-4">
+             <div class="banner banner-cat">
+                <a href="/shop">
+                <img src="assets/images/demos/demo-10/banners/banner-5.png" alt="Banner">
+                </a>
+               
+             </div>
+             <!-- End .banner -->
+          </div>
+          <!-- End .col-md-4 -->
+          <div class="col-sm-6 col-md-4">
+             <div class="banner banner-cat">
+                <a href="/shop">
+                <img src="assets/images/demos/demo-10/banners/banner-8.png" alt="Banner">
+                </a>
+                
+             </div>
+             <!-- End .banner -->
+          </div>
+          <!-- End .col-md-4 -->
+          <div class="col-sm-6 col-md-4">
+             <div class="banner banner-cat">
+                <a href="/shop">
+                <img src="assets/images/demos/demo-10/banners/banner-6.png" alt="Banner">
+                </a>
+                
+                <!-- End .banner-content -->
+             </div>
+             <!-- End .banner -->
+          </div>
+          <!-- End .col-md-4 -->
+       </div>
+       <!-- End .row -->
+    </div>
+
+
+
+
+    <!-- End .container -->
+    <div class="mb-4"></div>
+    <!-- End .mb-4 -->
+    <div class="container">
+       <div class="tab-content">
+          <div class="more-container text-center mt-5">
+             <a href="/shop" class="btn btn-outline-lightgray btn-more btn-round"><span>View more products</span><i class="icon-long-arrow-right"></i></a>
+          </div>
+          <!-- End .more-container -->
+       </div>
+       <!-- End .container -->
+       <div class="mb-5"></div>
+       <!-- End .mb5 -->
+       <div class="container">
+          <div class="cta cta-horizontal cta-horizontal-box bg-image mb-4 mb-lg-6" style="background-image: url(assets/images/demos/demo-10/bg-1.jpg);">
+             <div class="row flex-column flex-lg-row align-items-lg-center">
+                <div class="col">
+                   <h3 class="cta-title text-primary">Explore our latest collection of boots now!</h3>
+                   <!-- End .cta-title -->
+                   <p class="cta-desc">Get <em class="font-weight-medium">FREE SHIPPING* & 5% rewards</em> on every order with Rucci Theme rewards program</p>
+                   <!-- End .cta-desc -->
+                </div>
+                <!-- End .col -->
+                <div class="col-auto">
+                   <a href="/shop" class="btn btn-white-primary btn-round"><span>Explore</span><i class="icon-long-arrow-right"></i></a>
+                </div>
+                <!-- End .col-auto -->
+             </div>
+             <!-- End .row -->
+          </div>
+          <!-- End .cta-horizontal -->
+       </div>
+       <!-- End .container -->
+ </main>
+ <!-- End .main -->
+ </div><!-- End .page-wrapper -->
+ <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+ <script>
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+           // Initialize the Owl Carousel
+           var introSlider = $(".intro-slider");
+           introSlider.owlCarousel({
+               items: 1,
+               loop: true,
+               autoplay: true,
+               autoplayTimeout: 5000, // Set autoplay interval to 5 seconds
+               autoplayHoverPause: true,
+               nav: false,
+           });
+       });
+
+
+       document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the Owl Carousel
+        var productsCarousel = $(".owl-carousel");
+        productsCarousel.owlCarousel({
+            items: 4,
+            margin: 0,
+            loop: true, // Change to true for infinite loop
+            autoplay: true,
+            autoplayTimeout: 1000,
+            autoplayHoverPause: true,
+            nav: true,
+            dots: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                480: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                },
+                992: {
+                    items: 4
+                },
+                1200: {
+                    items: 4
+                }
+            }
+        });
+    });
+
+    const addToCartBtn = document.querySelectorAll('.addToCartBtn')
+    addToCartBtn.forEach((btn)=>{
+        btn.addEventListener('click',addTocartFn)
+    })
+    
+    async function addTocartFn (){
+        try {
+            const productId = this.getAttribute('data-prodId')
+            
+            const response = await fetch ('/addToCart',{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({productId})
+            }
+            ) 
+    
+            const data = await response.json()
+            if(data.message === 'This product has already been added to your cart.' ){
+                Swal.fire({
+                icon: 'warning',
+                title: data.message,
+                // text: data.message,
+                timer:3000
+            });
+            }else if(data.message === 'Item successfully added to your cart.'){
+                Swal.fire({
+                icon: 'success',
+                title: data.message,
+                // text: data.message,
+                timer:3000
+            })
+            }else if(data.message === 'Cart created successfully.'){
+                Swal.fire({
+                    icon: 'success',
+                    title: data.message,
+                    timer:3000
+                })
+            }
+        } catch (error) {
+            console.log('add to cart not wokring');
+        }
+    }
+    
+    
+    
+    const addToWishlistBtn = document.querySelectorAll('.addToWishlistBtn');
+    addToWishlistBtn.forEach((btn) => {
+        btn.addEventListener('click', addToWishlistFn);
+    });
+    
+    async function addToWishlistFn() {
+        try {
+            const productId = this.getAttribute('data-prodId');
+    
+            const response = await fetch('/addToWishlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId })
+            });
+    
+            const data = await response.json();
+            if (data.message) {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.log('Add to wishlist not working');
+        }
+    }
+ </script>
+ </body>
+
+
+
+
+<%- include('../layouts/footer') %>

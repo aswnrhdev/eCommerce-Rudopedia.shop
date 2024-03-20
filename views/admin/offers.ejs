@@ -1,0 +1,115 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <div class="card">
+         <div class="card-body">
+            <h4 class="card-title">OFFERS</h4>
+            <!-- Form for adding offers -->
+            <div class="col-md-12 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <h4 class="card-title">ADD OFFERS</h4>
+                     <form action="/admin/offers/add" method="POST">
+                        <!-- Offer details input fields -->
+                        <div class="form-group">
+                           <label for="offerName">Offer Name</label>
+                           <input type="text" class="form-control" id="offerName" name="offerName" placeholder="Enter offer name" required>
+                        </div>
+                        <div class="form-group">
+                           <label for="offerDiscount">Offer Discount</label>
+                           <input type="number" class="form-control" id="offerDiscount" name="offerDiscount" placeholder="Enter offer discount" required>
+                        </div>
+                        <div class="form-group">
+                           <label for="expiryDate">Expiry Date:</label>
+                           <input type="date" class="form-control" id="expiryDate" name="expiryDate" placeholder="Select expiry date" required>
+                        </div>
+                        <div class="form-group">
+                           <!-- Submit and cancel buttons -->
+                           <button type="submit" class="btn btn-outline-primary me-2">Submit</button>
+                           <button type="button" class="btn btn-outline-secondary" id="cancelBtn" onclick="closeModal()">Cancel</button>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+            <!-- Display existing offers in a table -->
+            <div>
+               <% if (offers.length > 0) { %>
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>Offer Name</th>
+                        <th>Discount</th>
+                        <th>Expiry Date</th>
+                        <th>Status</th>
+                        <th>Remove</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <% offers.forEach((offer) => {
+                        // Check if the offer is active or expired
+                        const status = offer.expiryDate < new Date() ? 'Expired' : 'Active';
+                        // Apply different styles based on the status
+                        const statusStyle = status === 'Active' ? 'color: green;' : 'color: red;';
+                        %>
+                     <tr>
+                        <!-- Display offer details in table rows -->
+                        <td><%= offer.offerName %></td>
+                        <td><%= offer.offerDiscount %></td>
+                        <td><%= offer.expiryDate %></td>
+                        <td style="<%= statusStyle %>"><%= status %></td>
+                        <td>
+                           <!-- Form for deleting an offer -->
+                           <form action="/admin/offers/<%= offer._id %>/delete" method="POST" class="delete-form">
+                              <button type="button" class="btn btn-danger delete-btn">Delete</button>
+                           </form>
+                        </td>
+                     </tr>
+                     <% }); %>
+                  </tbody>
+               </table>
+               <% } else { %>
+               <!-- Display message if no offers available -->
+               <p>No offers available.</p>
+               <% } %>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Include the SweetAlert2 library for a nice confirmation dialog -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- JavaScript for handling offer deletion with SweetAlert2 confirmation -->
+<script>
+   document.addEventListener('DOMContentLoaded', () => {
+     const deleteButtons = document.querySelectorAll('.delete-btn');
+   
+     deleteButtons.forEach((button) => {
+       button.addEventListener('click', (event) => {
+         event.preventDefault();
+   
+         // Display a confirmation dialog using SweetAlert2
+         Swal.fire({
+           title: 'Are you sure?',
+           text: 'Once deleted, you will not be able to recover this offer!',
+           icon: 'warning',
+           showCancelButton: true,
+           cancelButtonText: 'No, cancel!',
+           confirmButtonText: 'Yes, delete it!',
+           reverseButtons: true,
+           customClass: {
+             popup: 'custom-popup-class', // Add a custom class for styling
+           },
+           background: '#000', // Set black background color
+         }).then((result) => {
+           if (result.isConfirmed) {
+             // Submit the form for offer deletion
+             const deleteForm = button.closest('.delete-form');
+             deleteForm.submit();
+           }
+         });
+       });
+     });
+   });
+</script>
+<%- include('../layouts/adminFooter') %>

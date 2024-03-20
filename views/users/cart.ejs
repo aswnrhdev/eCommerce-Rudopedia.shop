@@ -1,0 +1,346 @@
+<%- include('../layouts/header') %>
+
+      <main class="main">
+        <div
+          class="page-header text-center"
+          style="background-image: url('assets/images/page-header-bg.jpg')">
+          <div class="container">
+            <h1 class="page-title">Rudo Cart</h1>
+          </div>
+          <!-- End .container -->
+        </div>
+        <!-- End .page-header -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+          <div class="container">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Shop</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Shopping Cart
+              </li>
+            </ol>
+          </div>
+          <!-- End .container -->
+        </nav>
+        <!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+          <div class="cart">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-9">
+
+
+                  <% if (cartItems.length > 0) { %>
+                    <table class="table table-cart table-mobile">
+                       <thead>
+                          <tr>
+                             <th>Product</th>
+                             <th>Price</th>
+                             <th>Quantity</th>
+                             <th>Total</th>
+                             <th></th>
+                          </tr>
+                       </thead>
+                       <tbody>
+                          <% cartItems.forEach(cartItem => { %>
+                             
+                          <tr>
+                             <td class="product-col">
+                                <div class="product">
+                                   <figure class="product-media">
+                                      <% if (cartItem.product && cartItem.product._id) { %>
+                                         <a href="/productDetails/<%= cartItem.product._id %>">
+                                      <% } %>
+                                      
+                                      <img
+                                         src="data:<%= cartItem.product.image[0].contentType %>;base64, <%= cartItem.product.image[0].data.toString('base64') %>"
+                                         alt="Product image"
+                                         class="product-image" />
+                                      </a>
+                                   </figure>
+                                   <h3 class="product-title">
+                                      <a
+                                         href="/productDetails/<%= cartItem.product._id %>"
+                                         ><%= cartItem.product.name %></a
+                                         >
+                                   </h3>
+                                   <!-- End .product-title -->
+                                </div>
+                                <!-- End .product -->
+                             </td>
+                             <td class="price-col">
+                                <% if (cartItem.product.catOfferPrice !== null) { %>
+                                <span class="product-price">₹<%= cartItem.product.catOfferPrice.toFixed(2) %></span>
+                                <% } else if (cartItem.product.offerPrice !== null) { %>
+                                <span class="product-price">₹<%= cartItem.product.offerPrice.toFixed(2) %></span>
+                                <% } else { %>
+                                <span class="product-price">₹<%= cartItem.product.price.toFixed(2) %></span>
+                                <% } %>
+                             </td>
+                             <td class="quantity-col">
+                                <div class="cart-product-quantity">
+                                   <div class="d-flex flex-column align-items-center">
+                                      <div style="display: flex; align-items: center;">
+                                         <button class="quantity-decrease123 decrease-button" style="background-color: transparent; border: 1px solid #cd9967; color: #cd9967; cursor: pointer; padding: 4px 10px; font-size: 1.2em; margin-right: -10px;">-</button>
+                                         <div style="margin: 0 10px; font-size: 1.2em; width: 40px; text-align: center;">
+                                            <span class="quantity-value"><%= cartItem.count %></span>
+                                            <input
+                                               type="hidden"
+                                               id="counInput"
+                                               class="form-control-cart quantity-input text-center"
+                                               value="<%= cartItem.count %>"
+                                               data-product-id="<%= cartItem.product._id %>"
+                                               data-decimals="0"
+                                               required
+                                               readonly
+                                               />
+                                         </div>
+                                         <button class="quantity-increase123 increase-button" style="background-color: transparent; border: 1px solid #cd9967; color: #cd9967; cursor: pointer; padding: 4px 10px; font-size: 1.2em; margin-left: -10px;">+</button>
+                                      </div>
+                                   </div>
+                                </div>
+                             </td>
+                             <td class="total-col">
+                                <% const total = cartItem.count * (cartItem.product.catOfferPrice !== null ? cartItem.product.catOfferPrice : (cartItem.product.offerPrice !== null ? cartItem.product.offerPrice : cartItem.product.price)); %>
+                                <span class="product-total" data-initial-price="<%= total %>">
+                                <%= total.toFixed(2) %>
+                                </span>
+                             </td>
+                             <td class="remove-col">
+                                <button
+                                   class="btn-remove"
+                                   data-prodId="<%= cartItem.product._id %>">
+                                <i class="icon-close"></i>
+                                </button>
+                             </td>
+                          </tr>
+                       </tbody>
+                       <% }); %>
+                    </table>
+                    <% } else { %>
+                    <p>Your cart is empty.</p>
+                    <img src="assets/images/cart1.png" alt="Banner">
+                    <% } %>
+                   
+
+                  <div class="cart-bottom">
+                    <a href="#" class="btn btn-outline-dark-2"
+                      ><span>REFRESH CART</span><i class="icon-refresh"></i
+                    ></a>
+                  </div>
+            
+                </div>
+           
+
+                <aside class="col-lg-3">
+  <div class="summary summary-cart">
+    <h3 class="summary-title">Cart Total</h3>
+    <table class="table table-summary">
+      <tbody>
+        <% let subtotal = 0; %>
+        <% cartItems.forEach(cartItem => { %>
+          <tr class="summary-item">
+            <td><%= cartItem.product.name %></td>
+            <% const itemTotal = cartItem.count * (cartItem.product.catOfferPrice !== null ? cartItem.product.catOfferPrice : (cartItem.product.offerPrice !== null ? cartItem.product.offerPrice : cartItem.product.price)); %>
+            <td><%= itemTotal.toFixed(2) %></td>
+            <% subtotal += itemTotal; %>
+          </tr>
+        <% }); %>
+        <tr class="summary-subtotal">
+          <td>Subtotal</td>
+          <td><%= subtotal.toFixed(2) %></td>
+        </tr>
+        <!-- You can add any other charges or calculations here if needed -->
+        <tr class="summary-total">
+          <!-- Assuming no additional charges for now, total = subtotal -->
+          <td>Total</td>
+          <td><%= subtotal.toFixed(2) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="/checkout" class="btn btn-outline-primary-2 btn-order btn-block" onclick="checkStock(event)">PROCEED TO CHECKOUT</a>
+
+  </div>
+  <a href="category.html" class="btn btn-outline-dark-2 btn-block mb-3">
+    <span>CONTINUE SHOPPING</span><i class="icon-refresh"></i>
+  </a>
+</aside>
+
+<script>
+
+function checkStock(event) {
+  <% if (cartItems.length === 0) { %>
+      Swal.fire({
+        icon: 'warning',
+        title: 'EMPTY',
+        text: 'Please add some products to your cart before proceeding to checkout', // Missing comma here
+        timer: 3000,
+        didClose: () => {
+          window.location.reload();
+        }
+      });
+          
+      event.preventDefault(); // Prevent default behavior (e.g., going to the checkout page)
+      return false; // Prevent further execution
+    <% } %>
+    
+        
+    <% cartItems.forEach(cartItem => { %>
+      <% if (cartItem.product.quantity <= 0) { %>
+        Swal.fire({
+          icon: 'warning',
+          title: '<%= cartItem.product.name %> is out of stock',
+          text: 'Please remove it from your cart', // Missing comma here
+          timer: 3000,
+          didClose: () => {
+            window.location.reload();
+          }
+        });
+
+        event.preventDefault(); // Prevent default behavior (e.g., going to the checkout page)
+        return false; // Prevent further execution
+      <% } %>
+    <% }); %>
+  }
+      const removeButtons = document.querySelectorAll(".btn-remove");
+removeButtons.forEach((button) => {
+  button.addEventListener("click", removeProduct);
+});
+
+async function removeProduct() {
+  try {
+    const productId = this.getAttribute("data-prodId");
+
+    const response = await fetch(`/removeFromCart/${productId}`, {
+      method: "DELETE",
+    });
+
+    const data = await response.json();
+    if (data.message) {
+      Swal.fire({
+        icon: 'warning',
+        title: data.message,
+        timer: 3000,
+        didClose: () => {
+          window.location.reload();
+        }
+      });
+    }
+  } catch (error) {
+    console.error("Failed to remove product from cart:", error);
+  }
+}
+
+
+
+
+// Increment button event listener
+document.querySelectorAll(".quantity-increase123").forEach(button => {
+  button.addEventListener("click", incrementProduct);
+});
+
+// Decrement button event listener
+document.querySelectorAll(".quantity-decrease123").forEach(button => {
+  button.addEventListener("click", decrementProduct);
+});
+
+async function updateProductCount(productId, newCount) {
+  try {
+    const response = await fetch(`/updateProductCount/${productId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ count: newCount })
+    });
+
+    const data = await response.json();
+    if (data.message && data.updatedCartItem) {
+      const cartItem = data.updatedCartItem;
+
+      // Update the quantity in the UI
+      const quantityValue = document.querySelector(`[data-product-id="${productId}"] .quantity-value`);
+      quantityValue.textContent = newCount;
+
+      // Update the total price based on the new quantity
+      const totalPriceElement = document.querySelector(`[data-product-id="${productId}"] .product-total`);
+      const initialPrice = parseFloat(totalPriceElement.getAttribute('data-initial-price'));
+      const newTotalPrice = newCount * (initialPrice / cartItem.count);
+      totalPriceElement.textContent = newTotalPrice;
+
+      // Update the total price in all other instances
+      const totalPrices = document.querySelectorAll('.product-total');
+      totalPrices.forEach(priceElement => {
+        const productQuantity = parseInt(priceElement.parentElement.querySelector('.quantity-value').textContent);
+        const productInitialPrice = parseFloat(priceElement.getAttribute('data-initial-price'));
+        priceElement.textContent = productQuantity * (productInitialPrice / cartItem.count);
+      });
+    }else if(data.stockExceed) {
+      alert('Requested quantity exceeds available stock');
+    }
+  } catch (error) {
+    console.error("Failed to update product count:", error);
+  }
+  window.location.reload();
+}
+
+
+
+
+
+async function incrementProduct() {
+  const productId = this.parentNode.querySelector('.form-control-cart').getAttribute('data-product-id');
+  const input = this.parentNode.querySelector('.form-control-cart');
+  let newCount = parseInt(input.value) + 1;
+  if (newCount <= 10) {
+    input.value = newCount;
+    updateProductCount(productId, newCount);
+    // Update the displayed quantity here
+    const quantityValue = this.parentNode.querySelector('.quantity-value');
+  quantityValue.textContent = newCount;
+
+  const totalPriceElement = this.closest('.product-row').querySelector('.product-total');
+  const productPrice = parseFloat(totalPriceElement.textContent) / (newCount - 1);
+  totalPriceElement.textContent = newCount * productPrice;
+  }
+ 
+}
+
+async function decrementProduct() {
+  const productId = this.parentNode.querySelector('.form-control-cart').getAttribute('data-product-id');
+  const input = this.parentNode.querySelector('.form-control-cart');
+  let newCount = parseInt(input.value) - 1;
+  if (newCount >= 1) {
+    input.value = newCount;
+    updateProductCount(productId, newCount);
+    // Update the displayed quantity here
+	const quantityValue = this.parentNode.querySelector('.quantity-value');
+  quantityValue.textContent = newCount;
+
+  const totalPriceElement = this.closest('.product-row').querySelector('.product-total');
+  const productPrice = parseFloat(totalPriceElement.textContent) / (newCount + 1);
+  totalPriceElement.textContent = newCount * productPrice;
+  }
+
+}
+
+</script>
+
+
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+
+
+                <!-- End .col-lg-3 -->
+              </div>
+              <!-- End .row -->
+            </div>
+            <!-- End .container -->
+          </div>
+          <!-- End .cart -->
+        </div>
+        <!-- End .page-content -->
+      </main>
+      <!-- End .main -->
+      <%- include('../layouts/footer') %>

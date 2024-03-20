@@ -1,0 +1,114 @@
+<%- include('../layouts/adminHeader') %>
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <!-- Table for displaying coupons -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Coupon Name</th>
+                <th>Coupon Code</th>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+                <th>Status</th>
+                <th>Action</th> <!-- New column for "Edit" button -->
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (let i = 0; i < coupons.length; i++) { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+                  <td><%= coupons[i].couponName %></td>
+                  <td><%= coupons[i].code %></td>
+                  <td><%= coupons[i].validFrom.toDateString() %></td>
+                  <td><%= coupons[i].validTo.toDateString() %></td>
+                  <td>
+                    <span style="color: <%= coupons[i].isValid ? 'green' : 'red' %>;">
+                      <%= coupons[i].isValid ? 'Active' : 'Expired' %>
+                    </span>
+                  </td>
+                  
+                  <td>
+                    <!-- Edit button triggers the modal -->
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#editModal<%= coupons[i]._id %>">
+                      Edit
+                    </button>
+                  </td>
+                  <td>
+                    <form action="/deleteCoupon" method="post">
+                      <input type="hidden" name="couponId" value="<%= coupons[i]._id %>">
+                      <button type="submit" class="btn btn-outline-danger">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+
+                <!-- Modal for each coupon -->
+                <div class="modal fade" id="editModal<%= coupons[i]._id %>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Coupon</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Add a form for editing coupon details -->
+                        <form action="/editCoupon" method="post">
+                          <input type="hidden" name="couponId" value="<%= coupons[i]._id %>">
+
+                          <!-- Coupon Name -->
+                          <div class="form-group">
+                            <label for="couponName">Coupon Name:</label>
+                            <input type="text" class="form-control" name="couponName" value="<%= coupons[i].couponName %>" required>
+                          </div>
+
+                          <!-- Discount Amount -->
+                          <div class="form-group">
+                            <label for="discountAmount">Discount Amount:</label>
+                            <input type="number" class="form-control" name="discountAmount" value="<%= coupons[i].discountAmount %>" required>
+                          </div>
+
+                          <!-- Valid From -->
+                          <div class="form-group">
+                            <label for="validFrom">Valid From:</label>
+                            <input type="date" class="form-control" name="validFrom" value="<%= coupons[i].validFrom.toISOString().split('T')[0] %>" required>
+                          </div>
+
+                          <!-- Valid To -->
+                          <div class="form-group">
+                            <label for="validTo">Valid To:</label>
+                            <input type="date" class="form-control" name="validTo" value="<%= coupons[i].validTo.toISOString().split('T')[0] %>" required>
+                          </div>
+
+                          <!-- Minimum Spend -->
+                          <div class="form-group">
+                            <label for="minimumSpend">Minimum Spend:</label>
+                            <input type="number" class="form-control" name="minimumSpend" value="<%= coupons[i].minimumSpend %>" required>
+                          </div>
+
+                          <button type="submit" class="btn btn-outline-primary">Save Changes</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Your existing HTML code for coupon.ejs -->
+
+
+<%- include('../layouts/adminFooter') %>

@@ -1,0 +1,248 @@
+<%- include('../layouts/header') %>
+
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Order Details<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <!-- <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li> -->
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="cart">
+	                <div class="container">
+	                	<div class="row">
+	                		<div class="col-lg-12">
+
+
+	                			<table class="table table-cart table-mobile">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+                                            <th>Order Date</th>
+                                            <th>Images</th>
+                                            <th>Payment Status</th>
+                                            <th>Cancel Order</th>
+                                            <th>Return Order</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                 
+                                            <% orderDetails.products.forEach(product => { %>
+                                                <tr>
+                                                    <td><%= product.productId.name %></td>
+                                                    <td><%= product.quantity %></td>
+                                                    <td><%= orderDetails.orderDate.toLocaleDateString() %></td>
+                                                    <td>
+                                                        <% if (product.productId.image && product.productId.image.length > 0) { %>
+                                                            <img src="data:<%= product.productId.image[0].contentType %>;base64,<%= product.productId.image[0].data.toString('base64') %>" alt="Product Image" style="width: 50px; height: auto;">
+                                                        <% } else { %>
+                                                            No Image Available
+                                                        <% } %>
+                                                    </td>
+                                                    <td style="color: <%= orderDetails.paymentStatus
+                                                    === 'Refunded' ? 'red' : 'green' %>;">
+                                                        <%= orderDetails.paymentStatus %>
+                                                    </td>
+                                                    
+                                                  
+                                                    <td>
+                                                        <% if (product.ProductOrderStatus === 'Cancelled' || orderDetails.OrderStatus === 'Delivered' || orderDetails.OrderStatus === 'Returned') { %>
+                                                            <button disabled class="btn-outline-secondary">
+                                                                Not Available
+                                                            </button>
+                                                        <% } else  { %>
+                                                            <button onclick="cancelOrder('<%= orderDetails._id %>', '<%= product._id %>')" class="btn-cancel btn-outline-danger">Cancel</button>
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (product.ProductOrderStatus === 'Cancelled' || orderDetails.OrderStatus === 'Shipped' || orderDetails.OrderStatus === 'Pending') { %>
+                                                            <button disabled class="btn-outline-secondary">
+                                                                Not Available
+                                                            </button>
+                                                        <% } else if (product.returnOrderStatus && product.returnOrderStatus.status === 'Returned') { %>
+                                                            <button disabled class="btn-outline-secondary">
+                                                                Returned
+                                                            </button>
+                                                        <% } else { %>
+                                                            <button onclick="returnProduct('<%= orderDetails._id %>', '<%= product._id %>')" class="btn-return btn-outline-warning">Return</button>
+                                                        <% } %>
+                                                    </td>
+                                                    
+                                                    
+                                                    
+                                                    
+                                                   
+                                                    
+                                                </tr>
+                                            <% }); %>
+                                    
+                                        
+                                    </tbody>
+                                </table>
+                                
+
+	                			
+	                		</div>
+	                		
+	                	</div><!-- End .row -->
+	                </div><!-- End .container -->
+                </div><!-- End .cart -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <%- include('../layouts/footer') %>
+
+      
+<script>
+
+
+
+
+function returnProduct(orderId, productId) {
+    // Display a modal to get return reason
+    Swal.fire({
+        title: 'Reason for Returning',
+        input: 'select',
+        inputOptions: {
+            'Defective or Damaged Product': 'Defective or Damaged Product',
+            'Wrong item received': 'Wrong item received',
+            'Size or fit issue': 'Size or fit issue',
+            'Quality Issue': 'Quality Issue',
+            'Product not as described': 'Product not as described',
+        },
+        inputPlaceholder: 'Select a reason',
+        showCancelButton: true,
+        confirmButtonText: 'Next',
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Please select a reason for returning the product';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const returnReason = result.value;
+
+            // Display a confirmation dialog
+            Swal.fire({
+                title: "Are you sure you want to return the product?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, return it!",
+                cancelButtonText: "No, keep it",
+            }).then((confirmationResult) => {
+                if (confirmationResult.isConfirmed) {
+                    // Proceed with return
+                    fetch(`/returnProduct/${orderId}/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ returnReason })
+                    })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Failed to return product: ${response.statusText}`);
+                        }
+                        // Handle success response
+                        // For example, update the UI or show a success message
+                        Swal.fire("Returned!", "Your product has been returned.", "success").then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        // Handle error scenario
+                        // Show an error message or retry option
+                        Swal.fire("Error", "Failed to return product", "error");
+                    });
+                } else if (confirmationResult.dismiss === Swal.DismissReason.cancel) {
+                    // If user cancels, do nothing
+                    Swal.fire("Cancelled", "Your product is safe :)", "error");
+                }
+            });
+        }
+    });
+}
+
+
+function cancelOrder(orderId, productId) {
+    // Display a modal to get cancellation reason
+    Swal.fire({
+        title: 'Reason for Cancelling',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Next',
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Please provide a reason for cancelling this product';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const cancelDescription = result.value;
+
+            // Display a confirmation dialog
+            Swal.fire({
+                title: "Are you sure you want to cancel the product?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, cancel it!",
+                cancelButtonText: "No, keep it",
+            }).then((confirmationResult) => {
+                if (confirmationResult.isConfirmed) {
+                    // Proceed with cancellation
+                    fetch(`/cancelOrder/${orderId}/${productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cancelDescription })
+                    })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error('Failed to cancel order');
+                        }
+                        // Handle success response
+                        // For example, update the UI or show a success message
+                        Swal.fire("Cancelled!", "Your product has been cancelled.", "success").then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        // Handle error scenario
+                        // Show an error message or retry option
+                        Swal.fire("Error", "Failed to cancel order", "error");
+                    });
+                } else if (confirmationResult.dismiss === Swal.DismissReason.cancel) {
+                    // If user cancels, do nothing
+                    Swal.fire("Cancelled", "Your product is safe :)", "error");
+                }
+            });
+        }
+    });
+}
+
+
+
+</script>
+
+      

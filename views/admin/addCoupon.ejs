@@ -1,0 +1,136 @@
+<%- include('../layouts/adminHeader') %>
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="card">
+      <div class="card-body">
+        <h4>ADD COUPONS</h4>
+        <form action="/addCoupon" method="post" style="margin-top: 40px;">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="couponCode">Coupon Code</label>
+                <div class="input-group">
+                  <input style=" color: rgb(255, 255, 255);" type="text" class="form-control" id="couponCode" name="couponCode" placeholder="Generated Coupon Code" readonly>
+
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="generateCodeBtn" type="button" onclick="generateCouponCode()" style="margin-left: 9px; padding: 10px;">Generate</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="couponName">Coupon Name</label>
+                <input style=" color: rgb(255, 255, 255);" type="text" class="form-control" id="couponName" name="couponName" placeholder="Enter Coupon Name">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="discountAmount">Discount Amount</label>
+                <div class="input-group">
+
+
+                  <div class="input-group-append">
+                    <input style=" color: rgb(255, 255, 255);" type="number" class="form-control" id="customDiscountAmount" name="customDiscountAmount" placeholder="Custom Amount">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="validFrom">Valid From</label>
+                <input style=" color: rgb(255, 255, 255);" type="date" class="form-control" id="validFrom" name="validFrom">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="validTo">Valid To</label>
+                <input style=" color: rgb(255, 255, 255);" type="date" class="form-control" id="validTo" name="validTo">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="minimumSpend">Minimum Spend</label>
+                <input style=" color: rgb(255, 255, 255);" type="number" class="form-control" id="minimumSpend" name="minimumSpend" min="2000" max="10000" step="1000">
+                <!-- Adjust min, max, and step attributes based on your requirements -->
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <button style="padding: 9px;" type="submit" class="btn btn-outline-primary">Submit</button>
+                <button style="padding: 9px;" type="button" class="btn btn-outline-secondary">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Function to generate a random code for the placeholder
+  function generateRandomCode() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  }
+
+  // Set the placeholder coupon code when the page loads
+  document.addEventListener('DOMContentLoaded', function () {
+    const couponCodeInput = document.getElementById('couponCode');
+    couponCodeInput.value = generateRandomCode();
+  });
+
+  // Function to generate and set a new coupon code when the "Generate" button is pressed
+  function generateCouponCode() {
+    const couponCodeInput = document.getElementById('couponCode');
+    couponCodeInput.value = generateRandomCode();
+  }
+</script>
+
+<!-- Your existing HTML code for addCoupon.ejs -->
+
+<script>
+  const showAlert = (message, isSuccess) => {
+    const alertClass = isSuccess ? 'alert-success' : 'alert-danger';
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert ${alertClass}`;
+    alertDiv.appendChild(document.createTextNode(message));
+
+    // Add the alert above the form
+    const formElement = document.querySelector('.main-panel .content-wrapper form');
+    formElement.parentNode.insertBefore(alertDiv, formElement);
+
+    // Scroll to the top to ensure the user sees the alert
+    window.scrollTo(0, 0);
+
+    // Automatically hide the alert after a few seconds (adjust as needed)
+    setTimeout(() => {
+      alertDiv.style.display = 'none';
+    }, 5000); // 5000 milliseconds (5 seconds)
+  };
+
+  // Check if there is a message in the query parameters and display the alert
+  document.addEventListener('DOMContentLoaded', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const successMessage = urlParams.get('success');
+    const errorMessage = urlParams.get('error');
+
+    if (successMessage) {
+      showAlert(successMessage, true);
+    } else if (errorMessage) {
+      showAlert(errorMessage, false);
+    }
+  });
+</script>
+
+<!-- page-body-wrapper ends -->
+</div>
+<%- include('../layouts/adminFooter') %>

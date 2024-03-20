@@ -1,0 +1,83 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <div class="card">
+         <div class="card-body">
+            <div class="page-header">
+               <h3 class="page-title">ORDERS DETAILS</h3>
+            </div>
+            <div class="col-lg-12 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table class="table  table-bordered table-contextual">
+                           <thead>
+                              <tr>
+                                 <th>Order ID</th>
+                                 <th>Product</th>
+                                 <th>Image</th>
+                                 <th>Ordered On</th>
+                                 <th>Total Amount</th>
+                                 <!-- New column for Product -->
+                                 <th>Manage</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <% orders.forEach(order => { %>
+                              <tr>
+                                 <td><%= order._id %></td>
+                                 <td>
+                                    <% order.products.forEach(product => { %>
+                                    <% if (product.productId && product.productId.name) { %>
+                                    <p>Name <%= product.productId.name %></p>
+                                    <% } else { %>
+                                    <p>Name N/A</p>
+                                    <!-- or any default value or message you prefer -->
+                                    <% } %>
+                                    <% if (order.OrderStatus === 'Cancelled') { %>
+                                    <p>Status <span style="color: red;"><%= order.OrderStatus %></span></p>
+                                    <% } else if (order.OrderStatus === 'Pending') { %>
+                                    <p>Status <span style="color: blue;"><%= order.OrderStatus %></span></p>
+                                    <% } else if (order.OrderStatus === 'Shipped') { %>
+                                    <p>Status <span style="color: green;"><%= order.OrderStatus %></span></p>
+                                    <% } else if (order.OrderStatus === 'Delivered') { %>
+                                    <p>Status <span style="color: green;"><%= order.OrderStatus %></span></p>
+                                    <% } else if (order.OrderStatus === 'Returned') { %>
+                                    <p>Status <span style="color: rgb(255, 217, 0);"><%= order.OrderStatus %></span></p>
+                                    <% } else { %>
+                                    <p>Status <%= order.OrderStatus %></p>
+                                    <% } %>
+                                    <% }); %>
+                                 </td>
+                                 <td>
+                                    <% order.products.forEach(product => { %>
+                                    <% if (product.productId && product.productId.image && product.productId.image.length > 0) { %>
+                                    <img src="data:<%= product.productId.image[0].contentType %>;base64,<%= product.productId.image[0].data.toString('base64') %>" alt="Product Image" width="100">
+                                    <% } else { %>
+                                    <p>No Image Available</p>
+                                    <% } %>
+                                    <% }); %>
+                                 </td>
+                                 <td><%= order.orderDate.toLocaleDateString() %></td>
+                                 <td><%= order.totalAmount %></td>
+                                 <td>
+                                    <a href="/manageOrder?orderId=<%= order._id %>">
+                                       <!-- Link to the manageOrder page with order ID as a parameter -->
+                                       <button style="padding: 10px;" class="btn btn-outline-primary">Manage</button>
+                                    </a>
+                                 </td>
+                              </tr>
+                              <% }); %>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<%- include('../layouts/adminFooter') %>

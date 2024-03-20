@@ -1,0 +1,670 @@
+
+<%- include('../layouts/header') %>
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">Checkout</h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item"><a href="#">Cart</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="page-content">
+                <div class="checkout">
+                    <div class="container">
+                        <label for="couponCode" class="text-truncate">Tap below to check for the availability of coupons</label>
+<div class="checkout-discount d-flex justify-content-end"> <!-- Use Bootstrap's utility classes -->
+    <form action="/apply-coupon" method="POST">
+        <select name="couponCode" class="form-control" id="selectedCoupon">
+            <option value="" disabled selected>Select a coupon</option>
+            <% activeCoupons.forEach(coupon => { %>
+                <% if (new Date(coupon.validTo) >= new Date()) { %>
+                    <option value="<%= coupon.code %>" data-coupon="<%=coupon.discocountAmount%>">
+                        <%= coupon.couponName %> <%= coupon.discountAmount %> off Offer valid until <%= coupon.validTo.toLocaleDateString() %>
+                    </option>
+                <% } %>
+            <% }); %>
+        </select>
+        <div class="row mt-2 justify-content-center"> <!-- Add margin-top to the row for better spacing -->
+            <button type="button" id="couponBtn" onclick="applyCoupon()" class="btn btn-outline-primary-2 btn-sm">Apply</button>
+            <button type="button" id="cancelBtn" onclick="cancelCoupon()" class="btn btn-outline-secondary btn-sm ml-2">Cancel</button>
+        </div>
+    </form>
+</div><!-- End .checkout-discount -->
+
+
+
+
+
+
+
+
+                        <form action="/placeOrder" method="POST">
+                            <div class="row">
+
+
+                                <div class="col-lg-9">
+                                    <div class="col-lg-9" style="margin-left: -10px;">
+                                        <h2 class="checkout-title">Choose Shipping Address</h2>
+                                        <% if (addresses && addresses.length> 0) { %>
+                                            <form action="#" method="POST">
+                                                <% addresses.forEach((address, index)=> { %>
+                                                    <div class="card card-dashboard">
+                                                        <div class=" card-body">
+                                                            <label>
+                                                                <input class='addressIp' type="radio"
+                                                                    name="selectedAddress" value="<%= address._id %>">
+                                                                <h3 class="card-title">Shipping Address <%= index + 1 %>
+                                                                </h3>
+                                                                <%= address.firstName %>
+                                                                    <%= address.lastName %><br>
+                                                                        <%= address.hcName %><br>
+                                                                            <%= address.streetName %><br>
+                                                                                <%= address.city %>, <%= address.state
+                                                                                        %>
+                                                                                        <%= address.pincode %><br>
+                                                                                            <%= address.mobile %><br>
+                                                                                                <%= address.email %><br>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <% }); %>
+
+                                            </form>
+                                            <% } else { %>
+                                                <p>No addresses found. <a href="#">Add Address</a></p>
+                                                <% } %>
+
+                                    </div>
+
+
+                                    <div>
+                                        <form action="/addShippingDetails" method="post">
+                                            <h2 class="checkout-title">Add Shipping Details</h2>
+
+
+                                            <div class="row">
+
+                                                <div class="col">
+                                                    <label>First Name *</label>
+                                                    <input type="text" class="form-control" id="firstNameInput"
+                                                        name="firstName">
+
+                                                </div>
+
+                                                <div class="col">
+                                                    <label>Last Name *</label>
+                                                    <input type="text" class="form-control" id="lastNameInput"
+                                                        name="lastName">
+                                                </div>
+                                            </div>
+
+                                            <label>House name or Company name *</label>
+                                            <input type="text" class="form-control" id="displayNameInput" name="hcName">
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label>Street name *</label>
+                                                    <input type="text" class="form-control" id="streetInput"
+                                                        name="streetName">
+                                                </div>
+
+                                                <div class="col">
+                                                    <label>City *</label>
+                                                    <input type="text" class="form-control" id="cityInput" name="city">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label>State *</label>
+                                                    <input type="text" class="form-control" id="stateInput"
+                                                        name="state">
+                                                </div>
+                                                <div class="col">
+                                                    <label>Pincode *</label>
+                                                    <input type="tel" class="form-control" id="pincodeInput"
+                                                        name="pincode">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label>Email address *</label>
+                                                    <input type="email" class="form-control" id="emailInput"
+                                                        name="email">
+                                                </div>
+
+                                                <div class="col">
+                                                    <label>Mobile Number *</label>
+                                                    <input type="tel" class="form-control" id="mobileInput"
+                                                        name="mobile">
+                                                </div>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-outline-primary-2"
+                                                style="margin-top: 10px;">
+                                                <span>ADD</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+                                    </div>
+                        </form>
+
+
+
+
+
+                    </div>
+
+
+
+                  
+
+                    <aside class="col-lg-3">
+                        <div class="summary">
+                            <h3 class="summary-title">Your Order</h3>
+
+                            <table class="table table-summary">
+                                <thead >
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% cartItems.forEach(cartItem => { %>
+                                        <tr>
+                                            <td>
+                                                <a href="#"><%= cartItem.product.name %></a>
+                                            </td>
+                                            <% if (cartItem.product.catOfferPrice !== null) { %>
+                                                <td>
+                                                    <%= (cartItem.product.catOfferPrice * cartItem.count).toFixed(2) %>
+                                                </td>
+                                            <% } else if (cartItem.product.offerPrice !== null) { %>
+                                                <td>
+                                                    <%= (cartItem.product.offerPrice * cartItem.count).toFixed(2) %>
+                                                </td>
+                                            <% } else { %>
+                                                <td>
+                                                    <%= (cartItem.count * cartItem.product.price).toFixed(2) %>
+                                                </td>
+                                            <% } %>
+                                        </tr>
+                                       
+                                    <% }); %>
+                                     <tr id="couponRow" style="color: red; display: none;">
+                                            <td id="head"></td>
+                                        <td id="discount"></td>
+                                        </tr>
+                              
+                                    <tr class="summary-subtotal ">
+                                        <td>Subtotal</td>
+                                        <td id="sub">
+                                            <%= subtotal.toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                   
+                                    <tr class="summary-total">
+                                        <td>Total:</td>
+                                        <td id="sub2">
+                                            <%= subtotal.toFixed(2) %>
+                                        </td>
+                                    </tr>
+                                   
+                                </tbody>
+
+
+
+
+                            </table>
+
+
+                            <div class="accordion-summary" id="accordion-payment">
+                                <h3 class="summary-title">Payment Methods</h3>
+
+                                <!-- Online Payment -->
+                                <div class="card">
+                                    <div class="card-header" id="heading-4">
+                                        <h2 class="card-title">
+                                            <label>
+                                                <input type="radio" name="paymentMethod" value="onlinePayment">
+                                                Online Payment
+                                            </label>
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                <!-- Cash on delivery -->
+                                <div class="card">
+                                    <div class="card-header" id="heading-3">
+                                        <h2 class="card-title">
+                                            <label>
+                                                <input type="radio" name="paymentMethod" value="cashOnDelivery">
+                                                Cash on delivery
+                                            </label>
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="heading-3">
+                                        <h2 class="card-title">
+                                            <label>
+                                                <input type="radio" name="paymentMethod" value="walletMoney">
+                                                Wallet Money
+                                            </label>
+                                        </h2>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            <button type="button" id="placeOrder" class="btn btn-outline-primary-2 btn-order btn-block"
+                                style="margin-top: 30px;" data-user-id="<%= user_id %>">
+                                <span>PLACE ORDER</span>
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+                </form>
+            </div>
+    </div>
+    </div>
+    </main>
+
+
+    <!-- Wallet -->
+    <!-- <div class="card">
+                                                <div class="card-header" id="heading-5">
+                                                    <h2 class="card-title">
+                                                        <label>
+                                                            <input type="radio" name="paymentMethod" value="wallet">
+                                                            Wallet
+                                                        </label>
+                                                    </h2>
+                                                </div>
+                                            </div> -->
+
+    </div>
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+   
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+    <!-- Include SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        const userId = $('#placeOrder').data('user-id');
+
+        document.getElementById('placeOrder').onclick = async function (e) {
+            let checkedAddress = false;
+            let selectedAddress;
+            let addressInputs = document.querySelectorAll('.addressIp');
+            addressInputs.forEach((input) => {
+                if (input.checked) {
+                    checkedAddress = true;
+                    selectedAddress = input.value;
+                }
+            });
+
+            const couponCode = document.getElementById("selectedCoupon").value;
+
+            let selectedPaymentMethod = $('input[name="paymentMethod"]:checked').val();
+            // Get the total value
+            let totalValue = parseFloat($('#sub2').text());
+
+            // Check if the total is 0 and disable the button
+            if (totalValue === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Cannot place an order with a total of 0.',
+                });
+                return;
+            }
+
+            if (!checkedAddress) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Please select an address to place the order.',
+                });
+                return;
+            }
+
+            if (!selectedPaymentMethod) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Please select a payment method to continue.',
+                });
+                return;
+            }
+
+            if (selectedPaymentMethod === 'walletMoney') {
+
+                const walletBalanceResponse = await fetch(`/fetchWalletBalance/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const walletBalanceData = await walletBalanceResponse.json();
+                const walletBalance = walletBalanceData.balance;
+
+
+                if (walletBalance >= <%= subtotal.toFixed(2) %>) {
+
+
+
+        const response = await fetch('/placeOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentMethod: 'Wallet Money', selectedAddress, couponCode })
+        });
+
+        const data = await response.json();
+        if (data.coupon) {
+                Swal.fire({
+                    title: 'Coupon Not Available',
+                    text: data.coupon,
+                    icon: 'error',
+                    button: 'OK',
+                });
+            } else { // No coupon, show Insufficient Balance Swal
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Insufficient Balance in Wallet',
+                    text: 'Please choose another payment method',
+                    timer: 3000
+                });
+            }
+        if (data.orderPlaced) {
+            window.location.href = '/loadOrderPlaced';
+        }
+        if (data.orderPlaced) {
+
+            const deductionResponse = await fetch('/deductWalletBalance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: <%= subtotal.toFixed(2) %> })
+            });
+
+            const deductionData = await deductionResponse.json();
+            console.log(deductionData);
+            if (deductionData.success) {
+                window.location.href = '/loadOrderPlaced';
+            } else {
+                // Handle deduction failure
+                console.error('Failed to deduct from wallet balance');
+                // Show an appropriate alert or handle as needed
+            }
+        }
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Insufficient Balance in Wallet',
+            text: 'Please choose another payment method',
+            timer: 3000
+        });
+    }
+
+    } else if (selectedPaymentMethod === 'onlinePayment') {
+let orderId;
+let amount;
+
+const requestOptions = {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        amount: "<%= subtotal.toFixed(2) %>",
+        couponCode
+    }),
+};
+
+fetch("/createOrder", requestOptions)
+    .then(response => response.json())
+
+    .then(response => {
+        console.log(response)
+        if(response.coupon){
+            Swal.fire({
+                title: 'Coupon Not Available',
+                text: response.coupon,
+                icon: 'error',
+                button: 'OK',
+            });
+            return;
+        }
+        orderId = response.orderId;
+        amount = response.totalAmount;
+
+    
+
+        const options = {
+            key: 'rzp_test_drocZnmdJ2flsA',
+            amount: amount,
+            currency: 'INR',
+            name: 'RudoPedia',
+            description: 'Ecommerce Transactions',
+            image: '/assets/images/icon.png',
+            order_id: orderId,
+            handler: function (response) {
+                const paymentMethod = 'Online Payment';
+                const verificationData = {
+                    response,
+                    paymentMethod,
+                    selectedAddress,
+                    couponCode,
+                    amount,
+                };
+
+                const verificationSettings = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(verificationData)
+                };
+
+                fetch('/api/payment/verify', verificationSettings)
+                    .then(response => response.json())
+                    .then(verificationResponse => {
+                        console.log(verificationResponse);
+                        if (verificationResponse.success) {
+                            window.location.href = '/loadOrderPlaced';
+                        } else {
+                            // Handle unsuccessful payment verification
+                            // ...
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            },
+            theme: {
+                color: '#000000'
+            }
+        };
+
+        const rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+        });
+        rzp1.open();
+        e.preventDefault();
+        $("button").show();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+else {
+        let paymentMethod = 'Cash on Delivery';
+        const response = await fetch('/placeOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentMethod, selectedAddress, couponCode })
+        });
+
+        const data = await response.json();
+       
+        if (data.coupon) {
+            Swal.fire({
+                title: 'Coupon Not Available',
+                text: data.coupon,
+                icon: 'error',
+                button: 'OK',
+            });
+
+        }
+        if (data.orderPlaced) {
+            window.location.href = '/loadOrderPlaced';
+        }
+    }
+  };
+});
+
+</script>
+
+
+
+<script>
+    const applyCoupon = async () => {
+        const value = $('#selectedCoupon').val();
+        const response = await fetch('/getCoupon', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ value })
+        });
+
+        const coupon = await response.json();
+
+        if (coupon.couponCode && coupon.discountAmount) {
+            $('#couponRow').css('display','block');
+            const discountAmount = parseFloat(coupon.discountAmount);
+            const sub = parseFloat($('#sub').text());
+            $('#head').text('Discounted Amount');
+            $('#discount').text(`-${discountAmount}`);
+            $('#sub').text((sub - discountAmount).toFixed(2));
+            $('#sub2').text((sub - discountAmount).toFixed(2));
+
+            // Disable the button after applying the coupon
+            $('#couponBtn').prop('disabled', true);
+
+            // Store the applied coupon in the session
+            // This will be used when placing the order
+            $.ajax({
+                url: '/storeAppliedCoupon',
+                method: 'POST',
+                data: { couponCode: coupon.couponCode },
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        } else {
+            // Handle case where coupon is not found or there is an error
+            console.error('Coupon not found or error in response');
+        }
+    };
+
+    const cancelCoupon = () => {
+        // Reload the page when cancel is pressed
+        location.reload();
+    };
+</script>
+
+
+
+
+
+
+
+    <script>
+        // Script to get the selected payment method
+        const paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        let selectedPaymentMethod = null;
+
+        paymentRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                if (this.checked) {
+                    selectedPaymentMethod = this.value;
+                    console.log("Selected Payment Method:", selectedPaymentMethod);
+                    // You can perform actions based on the selected payment method here
+                }
+            });
+        });
+    </script>
+
+ 
+<%- include('../layouts/footer') %>

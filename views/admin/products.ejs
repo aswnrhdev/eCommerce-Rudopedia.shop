@@ -1,0 +1,325 @@
+<%- include('../layouts/adminHeader') %>
+<!-- Include the admin header layout -->
+
+<div class="main-panel">
+   <div class="content-wrapper">
+      <div class="card">
+         <!-- Display products in a card layout -->
+         <div class="card-body">
+            <h4 class="card-title">PRODUCTS</h4>
+            <!-- Button to trigger the category offers modal -->
+            <button class="btn btn-outline-warning" data-toggle="modal" data-target="#categoryOffersModal" style="padding: 10px;">
+            Apply Category Offers
+            </button>
+            <!-- Information about how to remove category offers -->
+            <p style="color: rgb(217, 166, 0); margin-top: 10px;">If the category offer is applied, tap on the icon next to the category to remove the offer.</p>
+            
+            <!-- Search input and button -->
+            <div class="col-md-12 grid-margin stretch-card">
+               <div class="card">
+                  <div class="input-group mb-3">
+                     <input type="text" class="form-control mr-2" placeholder="Search by name, category, or price"
+                        aria-label="Search products" aria-describedby="search-button" id="search-input"
+                        style="margin-right: 20px; color: white; opacity: 1" />
+                     <!-- Set text color -->
+                     <button class="btn btn-outline-secondary" type="button" id="search-button">
+                     Search
+                     </button>
+                  </div>
+                  
+                  <!-- Display the products in a table -->
+                  <div class="table-responsive">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>Name</th>
+                              <th>Images</th>
+                              <th>Category</th>
+                              <th>Stock</th>
+                              <th>Price</th>
+                              <th>Product Offers</th>
+                              <th>Remove Offer</th>
+                              <th>Action</th>
+                              <th>Edit</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <!-- Loop through each product and display its details -->
+                           <% Product.forEach((product)=> { %>
+                           <tr>
+                              <td>
+                                 <%= product.name %>
+                              </td>
+                              <td>
+                                 <!-- Display product images -->
+                                 <% if (product.image && product.image.length> 0) { %>
+                                 <% product.image.forEach(image=> { %>
+                                 <img src="data:<%= image.contentType %>;base64,<%= image.data.toString('base64') %>"
+                                    alt="<%= product.name %> Image" />
+                                 <% }) %>
+                                 <% } else { %>
+                                 No images available
+                                 <% } %>
+                              </td>
+                              <!-- Display product category and offer icon if available -->
+                              <td>
+                                 <%= product.category %>
+                                 <% if (product.catOfferPrice) { %>
+                                 <i class="mdi mdi-star" style="color: red; cursor: pointer;" onclick="removeCategoryOffer('<%= product._id %>')"></i>
+                                 <% } %>
+                              </td>
+                              <td>
+                                 <%= product.quantity %>
+                              </td>
+                              <td>
+                                 <%= (product.catOfferPrice !== null && product.catOfferPrice !== undefined) ? product.catOfferPrice.toFixed(2) : 
+                                 ((product.offerPrice !== null && product.offerPrice !== undefined) ? product.offerPrice.toFixed(2) : 
+                                 (product.price !== null && product.price !== undefined) ? product.price.toFixed(2) : 'N/A') %>                             
+                              </td>
+                              <td>
+                                 <!-- Button to apply offers to the product -->
+                                 <button class="btn btn-outline-warning" data-toggle="modal"
+                                    data-target="#offersModal<%= product._id %>">
+                                 Apply Offers
+                                 </button>
+                                 <!-- Modal for applying offers to the product -->
+                                 <div class="modal fade" id="offersModal<%= product._id %>" tabindex="-1" role="dialog"
+                                    aria-labelledby="offersModalLabel<%= product._id %>" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                       <div class="modal-content">
+                                          <div class="modal-header">
+                                             <h5 class="modal-title" id="offersModalLabel<%= product._id %>">Select Offer</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                             </button>
+                                          </div>
+                                          <div class="modal-body">
+                                             <select id="offerSelect<%= product._id %>" class="form-control">
+                                                <% offers.forEach(offer=> { %>
+                                                <% if (!offer.expiryDate || new Date(offer.expiryDate) > new Date()) { %>
+                                                <option value="<%= offer._id %>">
+                                                   <%= offer.offerName %>
+                                                </option>
+                                                <% } %>
+                                                <% }) %>
+                                             </select>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                             <button type="button" class="btn btn-primary" onclick="applyOffer('<%= product._id %>')">Apply Offer</button>
+                                          </div>
+                                       </div>
+                                 </div>
+                              </td>
+                              <td>
+                                 <!-- Button to remove offers from the product -->
+                                 <% if (product.offer) { %>
+                                 <button class="btn btn-outline-danger"
+                                    onclick="removeOffer('<%= product._id %>')">Remove Offer</button>
+                                 <% } else { %>
+                                 No Offer Applied
+                                 <% } %>
+                              </td>
+                              <td>
+                                 <!-- Form to delete the product -->
+                                 <form action="/admin/deleteProduct/<%= product._id %>" method="post">
+                                    <input type="hidden" name="product" value="<%= product._id %>" />
+                                    <!-- Button to list or unlist the product -->
+                                    <div class="btn-group" role="group" aria-label="Product Status">
+                                       <button type="submit"
+                                          class="btn <%= product.isListed ? 'btn-success' : 'btn-danger' %>">
+                                       <%= product.isListed ? 'List' : 'Unlist' %>
+                                       </button>
+                                    </div>
+                                 </form>
+                              </td>
+                              <td>
+                                 <!-- Button to edit the product -->
+                                 <a href="updateProduct/<%= product._id %>/Edit"
+                                    class="btn btn-outline-secondary">Edit</a>
+                              </td>
+                           </tr>
+                           <% }) %>
+                        </tbody>
+                     </table>
+                     
+                     <!-- Script for applying and removing offers -->
+                     <script>
+                        async function applyOffer(productId) {
+                          // Function to apply offers to the product
+                          const selectedOfferId = document.getElementById(`offerSelect${productId}`).value;
+                        
+                        try {
+                          const response = await fetch(`/admin/applyOffer/${productId}`, {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ offerId: selectedOfferId }),
+                          });
+                      
+                          if (response.ok) {
+                            location.reload();
+                          } else {
+                            console.error('Error applying offer');
+                          }
+                        } catch (error) {
+                          console.error('Error applying offer', error);
+                        }
+                        }
+                        
+                        async function removeOffer(productId) {
+                          // Function to remove offers from the product
+                          try {
+                            const response = await fetch(`/admin/removeOffer/${productId}`, {
+                              method: 'POST',
+                            });
+                        
+                            if (response.ok) {
+                              location.reload();
+                            } else {
+                              console.error('Error removing offer');
+                            }
+                          } catch (error) {
+                            console.error('Error removing offer', error);
+                          }
+                        }
+                     </script>
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+         <!-- Modal for applying category offers -->
+         <div class="modal fade" id="categoryOffersModal" tabindex="-1" role="dialog" aria-labelledby="categoryOffersModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="categoryOffersModalLabel">Select Category and Offer</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="form-group">
+                        <label for="categorySelect">Select Category</label>
+                        <select id="categorySelect" class="form-control">
+                           <% Product.map(product => product.category).filter((value, index, self) => self.indexOf(value) === index).forEach(category => { %>
+                           <option value="<%= category %>"><%= category %></option>
+                           <% }) %>
+                        </select>
+                     </div>
+                     <div class="form-group">
+                        <label for="offerSelect">Select Offer</label>
+                        <select id="offerSelect" class="form-control">
+                           <% offers.forEach(offer => { %>
+                           <% if (!offer.expiryDate || new Date(offer.expiryDate) > new Date()) { %>
+                           <option value="<%= offer.offerDiscount %>">
+                              <%= offer.offerName %> - <%= offer.offerDiscount %>% Discount
+                           </option>
+                           <% } %>
+                           <% }) %>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary" onclick="applyCategoryOffer()">Apply Category Offer</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+         <!-- Script for filtering products based on search criteria -->
+         <script>
+             document.addEventListener("DOMContentLoaded", function () {
+              document
+                .getElementById("search-button")
+                .addEventListener("click", function () {
+                  var searchText = document
+                    .getElementById("search-input")
+                    .value.toLowerCase()
+                    .trim();
+                  var rows = document.querySelectorAll("tbody tr");
+            
+                  rows.forEach(function (row) {
+                    var name = row
+                      .querySelector("td:nth-child(1)")
+                      .textContent.toLowerCase();
+                    var category = row
+                      .querySelector("td:nth-child(3)")
+                      .textContent.toLowerCase();
+                    var price = row
+                      .querySelector("td:nth-child(5)")
+                      .textContent.toLowerCase();
+            
+                    if (
+                      name.includes(searchText) ||
+                      category.includes(searchText) ||
+                      price.includes(searchText)
+                    ) {
+                      row.style.display = "";
+                    } else {
+                      row.style.display = "none";
+                    }
+                  });
+                });
+            });
+         </script>
+         
+         <!-- Script for removing category offers -->
+         <script>
+            async function removeCategoryOffer(productId) {
+                try {
+                    const response = await fetch(`/admin/removeCategoryOffer/${productId}`, {
+                        method: 'POST',
+                    });
+            
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        console.error('Error removing category offer');
+                    }
+                } catch (error) {
+                    console.error('Error removing category offer', error);
+                }
+            }
+         </script>
+         
+         <!-- Script for applying category offers -->
+         <script>
+            async function applyCategoryOffer() {
+                const category = document.getElementById('categorySelect').value;
+                const offerDiscount = document.getElementById('offerSelect').value;
+            
+                try {
+                    const response = await fetch('/admin/applyCategoryOffer', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ category, offerDiscount }),
+                    });
+            
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        console.error('Error applying category offer');
+                    }
+                } catch (error) {
+                    console.error('Error applying category offer', error);
+                }
+            }
+         </script>
+      </div>
+   </div>
+</div>
+</div>
+</div>
+<!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<%- include('../layouts/adminFooter') %>
+<!-- Include the admin footer layout -->

@@ -1,0 +1,539 @@
+<%- include('../layouts/header') %>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+               <div class="container">
+                  <h1 class="page-title">My Account<span></span></h1>
+               </div>
+               <!-- End .container -->
+            </div>
+            <!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+               <div class="container">
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="/">Home</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                  </ol>
+               </div>
+               <!-- End .container -->
+            </nav>
+            <!-- End .breadcrumb-nav -->
+            <div class="page-content">
+               <div class="dashboard">
+                  <div class="container">
+                     <div class="row">
+                        <aside class="col-md-4 col-lg-3">
+                           <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                              <li class="nav-item">
+                                 <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab" href="#tab-dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">Dashboard</a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet" role="tab" aria-controls="tab-wallet" aria-selected="false">Wallet</a>
+                             </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="tab-password-link" data-toggle="tab" href="#tab-password" role="tab" aria-controls="tab-password" aria-selected="false">Change Password</a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Address</a>
+                              </li>
+                              <li class="nav-item">
+                                 <a class="nav-link" id="tab-addAddress-link" data-toggle="tab" href="#tab-addAddress" role="tab" aria-controls="tab-addAddress" aria-selected="false">Add Address</a>
+                              </li>
+                              
+                              
+                              <li class="nav-item">
+                                 <a class="nav-link" href="/logout">Sign Out</a>
+                              </li>
+                           </ul>
+                        </aside>
+                        <!-- End .col-lg-3 -->
+                        <div class="col-md-8 col-lg-9">
+                           <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link" >
+                                    <p>Hello <span class="font-weight-normal text-dark"><%= user.firstName %> <%= user.secondName %></span>
+                                        <br>
+                                        It's wonderful to have a user like you, <a href="#" class="tab-trigger-link"><%= user.firstName %></a>, on our <a href="#" class="tab-trigger-link link-underline">Rucci platform!</a> Feel free to shop for everything you need. For any assistance, please contact us at <a href="#" class="tab-trigger-link link-underline">+001 002003</a>. Don't forget to check your latest and most recent  <a href="#tab-orders" class="tab-trigger-link link-underline">orders</a>.
+                                        <br>
+                                        <br><Br>
+                                
+                                        <% if (user.referralCode) { %>
+                                            Your referral link: <a id="referralLink" href="<%= `/login?ref=${user.referralCode}` %>" target="_blank"><%= `/login?ref=${user.referralCode}` %></a>
+                                            <br>
+                                            <button class="btn-outline-primary-2" onclick="copyReferralLink()">Copy Link</button>
+                                            <br>
+                                            Share this link with your friends and earn rewards!
+                                        <% } %>
+                                
+                                        <script>
+                                            function copyReferralLink() {
+                                                var referralLink = document.getElementById("referralLink");
+                                                var range = document.createRange();
+                                                range.selectNode(referralLink);
+                                                window.getSelection().removeAllRanges(); // Clear previous selections
+                                                window.getSelection().addRange(range);
+                                                document.execCommand("copy");
+                                                window.getSelection().removeAllRanges(); // Clear the selection
+                                               
+                                                Swal.fire({
+                                                icon: 'success',
+                                                title: "Referral link copied to clipboard!",
+                                                // text: data.message,
+                                                timer:3000
+                                            });
+                                            }
+                                        </script>
+                                    </p>
+                                </div>
+                              <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
+                                 <form id="profileForm" action="/updateUserProfile" method="post">
+                                    <div class="row">
+                                       <div class="col-sm-6">
+                                          <label>First Name *</label>
+                                          <input type="text" class="form-control" id="firstNameInput" name="firstName" value="<%= user.firstName %>" readonly required>
+                                       </div>
+                                       <!-- End .col-sm-6 -->
+                                       <div class="col-sm-6">
+                                          <label>Last Name *</label>
+                                          <input type="text" class="form-control" id="lastNameInput" name="secondName" value="<%= user.secondName %>" readonly required>
+                                       </div>
+                                       <!-- End .col-sm-6 -->
+                                    </div>
+                                    <!-- End .row -->
+                                    <label>Display Name *</label>
+                                    <input type="text" class="form-control" id="displayNameInput" value="<%= user.firstName %> <%= user.secondName %>" readonly required>
+                                    <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+                                    <label>Email address *</label>
+                                    <input type="email" class="form-control" id="emailInput" name="email" value="<%= user.email %>" readonly required>
+                                    <label>Mobile Number *</label>
+                                    <input type="tel" class="form-control" id="mobileInput" name="mobile" value="<%= user.mobile %>" readonly required>
+                                    <button type="button" id="editButton" class="btn btn-outline-primary-2" style="margin-right: 10px; margin-bottom: 20px;">
+                                    <span>EDIT</span>
+                                    </button>
+                                    <button type="submit" id="submitButton" class="btn btn-outline-primary-2" style="display: none; margin-bottom: 20px;">
+                                    <span>SUBMIT</span>
+                                    </button>
+                                    <% if (typeof successMessage !== 'undefined') { %>
+                                    <div class="alert alert-success"><%= successMessage %></div>
+                                    <% } else if (typeof errorMessage !== 'undefined') { %>
+                                    <div class="alert alert-danger"><%= errorMessage %></div>
+                                    <% } %>
+                                 </form>
+                              </div>
+                              <!-- .End .tab-pane -->
+                              <script>
+                                 const editButton = document.getElementById('editButton');
+                                 const submitButton = document.getElementById('submitButton');
+                                 const inputs = document.querySelectorAll('#profileForm input');
+                                 
+                                 editButton.addEventListener('click', function() {
+                                     inputs.forEach(input => {
+                                         input.removeAttribute('readonly');
+                                     });
+                                     editButton.style.display = 'none';
+                                     submitButton.style.display = 'block';
+                                 });
+                              </script>
+
+
+
+
+
+                              <div class="tab-pane fade" id="tab-password" role="tabpanel" aria-labelledby="tab-password-link">
+                                 <form action="/change-password" method="POST">
+                                    <label>Current password</label>
+                                    <input type="password" class="form-control" name="currentPassword">
+                                    <label>New password</label>
+                                    <input type="password" class="form-control" name="newPassword">
+                                    <label>Confirm new password</label>
+                                    <input type="password" class="form-control mb-2" name="confirmPassword">
+                                    <button type="submit" class="btn btn-outline-primary-2" style="margin-bottom: 20px;">
+                                    <span>CHANGE</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                    <% if (typeof successMessage !== 'undefined') { %>
+                                    <div class="alert alert-success"><%= successMessage %></div>
+                                    <% } else if (typeof errorMessage !== 'undefined') { %>
+                                    <div class="alert alert-danger"><%= errorMessage %></div>
+                                    <% } %>
+                                 </form>
+                              </div>
+                              <div class="tab-pane fade" id="tab-addAddress" role="tabpanel" aria-labelledby="tab-addAddress-link">
+                                 <form id="addAddressForm" action="/addAddress" method="POST">
+                                    <div class="row">
+                                       <div class="col-sm-6">
+                                          <label>First Name *</label>
+                                          <input type="text" class="form-control" id="firstNameInput" name="firstName" required>
+                                       </div>
+                                       <!-- End .col-sm-6 -->
+                                       <div class="col-sm-6">
+                                          <label>Last Name *</label>
+                                          <input type="text" class="form-control" id="lastNameInput" name="lastName"  required>
+                                       </div>
+                                       <!-- End .col-sm-6 -->
+                                    </div>
+                                    <!-- End .row -->
+                                    <label>House name or Company name *</label>
+                                    <input type="text" class="form-control" id="displayNameInput" name="hcName"  required>
+                                    <!-- <small class="form-text">This will be how your name will be displayed in the account section and in reviews</small> -->
+                                    <div class="row">
+                                       <div class="col">
+                                          <label>Street name *</label>
+                                          <input type="text" class="form-control" id="streetInput" name="streetName" required>
+                                       </div>
+                                       <!-- End .col -->
+                                       <div class="col">
+                                          <label>City *</label>
+                                          <input type="text" class="form-control" id="cityInput" name="city" required>
+                                       </div>
+                                       <!-- End .col -->
+                                    </div>
+                                    <!-- End .row -->
+                                    <div class="row">
+                                       <div class="col">
+                                          <label>State *</label>
+                                          <input type="text" class="form-control" id="stateInput" name="state" required>
+                                       </div>
+                                       <!-- End .col -->
+                                       <div class="col">
+                                          <label>Pincode *</label>
+                                          <input type="tel" class="form-control" id="pincodeInput" name="pincode" required>
+                                       </div>
+                                       <!-- End .col -->
+                                    </div>
+                                    <!-- End .row -->
+                                    <div class="row">
+                                       <div class="col">
+                                          <label>Email address *</label>
+                                          <input type="email" class="form-control" id="emailInput" name="email" required>
+                                       </div>
+                                       <!-- End .col -->
+                                       <div class="col">
+                                          <label>Mobile Number *</label>
+                                          <input type="tel" class="form-control" id="mobileInput" name="mobile" required>
+                                       </div>
+                                       <!-- End .col -->
+                                    </div>
+                                    <!-- End .row -->
+                                    <button type="submit" class="btn btn-outline-primary-2">
+                                    <span>ADD</span>
+                                    <i class="icon-long-arrow-right"></i>
+                                    </button>
+                                 </form>
+                              </div>
+                              <!-- .End .tab-pane -->
+                              <!-- userAddresses.ejs -->
+                              <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
+                                 <p>The following addresses will be used on the checkout page by default.</p>
+                                 <div class="row">
+                                    <% if (addresses && addresses.length > 0) { %>
+                                    <% addresses.forEach(address => { %>
+                                    <div class="col-lg-6">
+                                       <div class="card card-dashboard">
+                                          <div class="card-body">
+                                             <div class="d-flex justify-content-between align-items-center">
+                                                <h3 class="card-title mb-0">Delivery Address</h3>
+                                                <button class="btn-remove" data-addressId="<%= address._id %>">
+                                                <i class="icon-close"></i>
+                                                </button>
+                                             </div>
+                                             <p>
+                                                <%= address.firstName %> <%= address.lastName %><br>
+                                                <%= address.hcName %><br>
+                                                <%= address.streetName %><br>
+                                                <%= address.city %>, <%= address.state %> <%= address.pincode %><br>
+                                                <%= address.mobile %><br>
+                                                <%= address.email %><br>
+                                                <a type="button" class="edit-address-btn" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="loadAddress('<%= address._id %>')">Edit <i class="icon-edit"></i></a>
+                                                <!-- Modal -->
+                                             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                   <div class="modal-content">
+                                                      <div class="modal-body col-lg-9" style="margin: 80px;" id="modalContent">
+                                                         <form id="editAddressForm">
+                                                            <div class="row">
+                                                               <div class="col-sm-6">
+                                                                  <label for="editFirstName">First Name *</label>
+                                                                  <input type="text" class="form-control" id="editFirstName" name="editFirstName" placeholder="First Name" value="<%= address.firstName %>" required>
+                                                               </div>
+                                                               <div class="col-sm-6">
+                                                                  <label for="editLastName">Last Name *</label>
+                                                                  <input type="text" class="form-control" id="editLastName" name="editLastName" placeholder="Last Name" value="<%= address.lastName %>" required>
+                                                               </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                               <label for="editHcName">House name or Company name *</label>
+                                                               <input type="text" class="form-control" id="editHcName" name="editHcName" placeholder="House name or Company name" value="<%= address.hcName %>" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                               <label for="editStreetName">Street name *</label>
+                                                               <input type="text" class="form-control" id="editStreetName" name="editStreetName" placeholder="Street name" value="<%= address.streetName %>" required>
+                                                            </div>
+                                                            <div class="row">
+                                                               <div class="col">
+                                                                  <label for="editCity">City *</label>
+                                                                  <input type="text" class="form-control" id="editCity" name="editCity" placeholder="City" value="<%= address.city %>" required>
+                                                               </div>
+                                                               <div class="col">
+                                                                  <label for="editState">State *</label>
+                                                                  <input type="text" class="form-control" id="editState" name="editState" placeholder="State" value="<%= address.state %>" required>
+                                                               </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                               <label for="editPincode">Pincode *</label>
+                                                               <input type="tel" class="form-control" id="editPincode" name="editPincode" placeholder="Pincode" value="<%= address.pincode %>" required>
+                                                            </div>
+                                                            <div class="row">
+                                                               <div class="col">
+                                                                  <label for="editEmail">Email address *</label>
+                                                                  <input type="email" class="form-control" id="editEmail" name="editEmail" placeholder="Email address" value="<%= address.email %>" required>
+                                                               </div>
+                                                               <div class="col">
+                                                                  <label for="editMobile">Mobile Number *</label>
+                                                                  <input type="tel" class="form-control" id="editMobile" name="editMobile" placeholder="Mobile Number" value="<%= address.mobile %>" required>
+                                                               </div>
+                                                            </div>
+                                                            <div class="row" style="justify-content: space-between; margin-top: 30px;">
+                                                               <button type="button" class="btn btn-outline-secondary" style="margin-left: 10px;" data-bs-dismiss="modal">Close</button>
+                                                               <button type="button" class="btn btn-outline-primary-2" style="margin-right: 10px;" id="saveChangesBtn" onclick="updateAddress('<%= address._id %>')"  data-bs-dismiss="modal">Save</button>
+                                                            </div>
+                                                         </form>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                             </div>
+                                             </p>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <% }); %>
+                                    <% } else { %>
+                                    <div class="col-lg-12">
+                                       <p>No addresses found. <a href="#">Add Address</a></p>
+                                    </div>
+                                    <% } %>
+                                 </div>
+                              </div>
+
+
+                              <div class="tab-pane fade" id="tab-wallet" role="tabpanel" aria-labelledby="tab-wallet-link">
+                                 <div>
+                                   <h5>Wallet Details</h5>
+                                 </div>
+                                 <div>
+                                   <button class="btn btn-outline-primary">Wallet Balance <%= user.wallet.balance %></button>
+                                   <h6 style="margin-top: 10px;">Transaction History</h6>
+                                   <table class="table">
+                                     <thead>
+                                       <tr>
+                                         <th>Type</th>
+                                         <th>Amount</th>
+                                         <th>Date</th>
+                                       </tr>
+                                     </thead>
+                                     <tbody>
+                                       <% user.wallet.history.forEach(transaction => { %>
+                                         <tr style="<%= transaction.type === 'Credit' ? 'color: green;' : 'color: red;' %>">
+                                           <td><%= transaction.type %></td>
+                                           <td><%= transaction.amount %></td>
+                                           <td><%= transaction.date %></td>
+                                         </tr>
+                                       <% }); %>
+                                     </tbody>
+                                   </table>
+                                 </div>
+                               </div>
+                               
+                              
+                            
+                           </div>
+                        </div>
+                        <!-- End .col-lg-9 -->
+                     </div>
+                     <!-- End .row -->
+                  </div>
+                  <!-- End .container -->
+               </div>
+               <!-- End .dashboard -->
+            </div>
+            <!-- End .page-content -->
+         </main>
+         <!-- End .main -->
+
+      
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+
+    
+
+    <script>
+           
+
+
+function loadAddress(addressId) {
+    fetch(`/getAddress/${addressId}`)
+        .then(response => response.json())
+        .then(address => {
+          
+            document.getElementById('editFirstName').value = address.firstName;
+            document.getElementById('editLastName').value = address.lastName;
+            document.getElementById('editHcName').value = address.hcName;
+            document.getElementById('editStreetName').value = address.streetName;
+            document.getElementById('editCity').value = address.city;
+            document.getElementById('editState').value = address.state;
+            document.getElementById('editPincode').value = address.pincode;
+            document.getElementById('editEmail').value = address.email;
+            document.getElementById('editMobile').value = address.mobile;
+            
+        })
+        .catch(error => {
+            console.error('Error fetching address:', error);
+        });
+}
+
+function updateAddress(addressId) {
+    const updatedAddress = {
+        firstName: document.getElementById('editFirstName').value,
+        lastName: document.getElementById('editLastName').value,
+        hcName: document.getElementById('editHcName').value,
+        streetName: document.getElementById('editStreetName').value,
+        city: document.getElementById('editCity').value,
+        state: document.getElementById('editState').value,
+        pincode: document.getElementById('editPincode').value,
+        email: document.getElementById('editEmail').value,
+        mobile: document.getElementById('editMobile').value,
+      
+    };
+
+    fetch(`/updateAddress/${addressId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedAddress),
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload();
+           
+        } else {
+            
+        }
+    })
+    .catch(error => {
+      
+    });
+}
+
+
+
+
+
+
+// Add this code in a script tag or separate JS file, alongside other JavaScript code
+
+const removeAddressButtons = document.querySelectorAll(".btn-remove");
+removeAddressButtons.forEach((button) => {
+    button.addEventListener("click", removeAddress);
+});
+
+async function removeAddress() {
+    try {
+        const addressId = this.getAttribute("data-addressId");
+
+        const response = await fetch(`/removeAddress/${addressId}`, {
+            method: "DELETE",
+        });
+
+        const data = await response.json();
+        if (data.message) {
+            Swal.fire({
+                icon: 'warning',
+                title: data.message,
+                // text: data.message,
+                timer:3000,
+                didClose: () => {
+          window.location.reload();
+        }
+            
+            });
+            // window.location.reload();
+        }
+    } catch (error) {
+        console.error("Failed to remove address:", error);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+                            const tabs = document.querySelectorAll('[data-toggle="tab"]');
+                            
+                            tabs.forEach(tab => {
+                                tab.addEventListener("click", function (event) {
+                                    const tabId = event.target.getAttribute("href");
+                                    sessionStorage.setItem("activeTab", tabId);
+                                });
+                            });
+                    
+                            // Check if there's a previously active tab in session storage
+                            const activeTab = sessionStorage.getItem("activeTab");
+                    
+                            if (activeTab) {
+                                // Show the previously active tab
+                                const tab = document.querySelector(`[href="${activeTab}"]`);
+                                tab && tab.click();
+                            }
+                        });
+
+
+        // Function to hide success/error messages after 3 seconds
+        function hideAlerts() {
+            setTimeout(function () {
+                document.querySelectorAll('.alert').forEach(function (alert) {
+                    alert.style.display = 'none';
+                });
+            }, 3000); // Hide alerts after 3 seconds (3000 milliseconds)
+        }
+    
+        // Call hideAlerts function on page load
+        window.onload = function () {
+            hideAlerts();
+        };
+    </script>
+
+<%- include('../layouts/footer') %>

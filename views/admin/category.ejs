@@ -1,0 +1,117 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <!-- Card for displaying categories -->
+      <div class="card">
+         <!-- Card body for displaying categories -->
+         <div class="card-body">
+            <div class="col-lg-12 stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <!-- Heading for categories -->
+                     <h4 class="card-title">CATEGORIES</h4>
+                     <!-- Search input and button -->
+                     <div class="input-group mb-3">
+                        <input
+                           type="text"
+                           class="form-control mr-2"
+                           placeholder="Search by Category Name"
+                           aria-label="Search categories"
+                           aria-describedby="search-button"
+                           id="categorySearch"
+                           style="margin-right: 20px; color: white" />
+                        <!-- Set placeholder color -->
+                        <button
+                           class="btn btn-outline-secondary"
+                           type="button"
+                           id="search-button"
+                           onclick="searchCategories()">
+                        Search
+                        </button>
+                     </div>
+                     <!-- Table for displaying categories -->
+                     <div class="table-responsive">
+                        <table
+                           class="table table-bordered table-contextual"
+                           style="margin-bottom: 30px">
+                           <thead>
+                              <tr>
+                                 <th style="width: 25%">Category Name</th>
+                                 <th style="width: 45%">Description</th>
+                                 <th style="width: 15%">Actions</th>
+                                 <th style="width: 15%">Edit</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <% categories.forEach((category, index) => { %>
+                              <!-- Loop through categories and display each row -->
+                              <tr
+                                 class="<%= index % 5 === 0 ? 'table-info' : index % 5 === 1 ? 'table-warning' : index % 5 === 2 ? 'table-danger' : index % 5 === 3 ? 'table-success' : 'table-primary' %>">
+                                 <td><%= category.categoryName %></td>
+                                 <td><%= category.description %></td>
+                                 <td>
+                                    <!-- Form for toggling category listing status -->
+                                    <form
+                                       action="/admin/toggleCategory/<%= category._id %>"
+                                       method="post">
+                                       <input
+                                          type="hidden"
+                                          name="category"
+                                          value="<%= category._id %>" />
+                                       <button
+                                          type="submit"
+                                          class="btn <%= category.isListed ? 'btn-success' : 'btn-danger' %>">
+                                       <%= category.isListed ? 'List' : 'Unlist' %>
+                                       </button>
+                                    </form>
+                                 </td>
+                                 <td>
+                                    <!-- Link for editing category -->
+                                    <a href="/admin/editCategory/<%= category._id %>">
+                                    <i
+                                       class="mdi mdi-pencil-box mdi-36px text-secondary"></i>
+                                    </a>
+                                 </td>
+                              </tr>
+                              <% }); %>
+                           </tbody>
+                        </table>
+                        <!-- Display success message if exists -->
+                        <% if (successMessage) { %>
+                        <div class="alert alert-success" role="alert">
+                           <%= successMessage %>
+                        </div>
+                        <% } %>
+                     </div>
+                     <!-- JavaScript function for searching categories -->
+                     <script>
+                        function searchCategories() {
+                          var input = document.getElementById("categorySearch");
+                          var filter = input.value.toUpperCase();
+                          var table = document.querySelector(".table");
+                          var rows = table.getElementsByTagName("tr");
+                        
+                          for (var i = 0; i < rows.length; i++) {
+                            var categoryName = rows[i].getElementsByTagName("td")[0];
+                            if (categoryName) {
+                              var textValue =
+                                categoryName.textContent || categoryName.innerText;
+                              if (textValue.toUpperCase().indexOf(filter) > -1) {
+                                rows[i].style.display = "";
+                              } else {
+                                rows[i].style.display = "none";
+                              }
+                            }
+                          }
+                        }
+                     </script>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</div>
+</div>
+<%- include('../layouts/adminFooter') %>

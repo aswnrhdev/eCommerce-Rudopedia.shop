@@ -1,0 +1,110 @@
+<%- include('../layouts/adminHeader') %>
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="col-lg-12 stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">
+            USERS INFORMATION
+          </h4>
+
+          <!-- Search Input -->
+          <div class="input-group mb-3">
+            <input type="text" class="form-control mr-2" placeholder="Search using name, email, or mobile number"
+              aria-label="Search users" aria-describedby="search-button" id="search-input"
+              style="margin-right: 20px; color: white; opacity: 1" />
+
+            <button class="btn btn-outline-secondary" type="button" id="search-button">
+              Search
+            </button>
+          </div>
+
+          <!-- User Table -->
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" style="margin-top: 20px">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Mobile</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% const classes=['table-primary', 'table-warning' , 'table-success' , 'table-info' , 'table-danger']; %>
+                <% users.forEach((user, index)=> { %>
+                <tr class="<%= classes[index % classes.length] %>">
+                  <td>
+                    <%= user.firstName %>
+                    <%= user.secondName %>
+                  </td>
+                  <td>
+                    <%= user.email %>
+                  </td>
+                  <td>
+                    <%= user.mobile %>
+                  </td>
+                  <td>
+                    <!-- User Block/Unblock Form -->
+                    <form action="/admin/block-user" method="POST">
+                      <input type="hidden" name="userId" value="<%= user._id %>" />
+                      <% if (user.is_blocked === 0) { %>
+                      <button type="submit" class="btn btn-block btn-danger btn-block-unblock">
+                        Block
+                      </button>
+                      <% } else { %>
+                      <button type="submit" class="btn btn-block btn-success btn-block-unblock">
+                        Unblock
+                      </button>
+                      <% } %>
+                    </form>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Script -->
+    <script>
+      document
+        .getElementById("search-button")
+        .addEventListener("click", function () {
+          let searchValue = document
+            .getElementById("search-input")
+            .value.toLowerCase();
+          let tableRows = document.querySelectorAll("tbody tr");
+
+          tableRows.forEach(function (row) {
+            let name = row
+              .querySelector("td:nth-child(1)")
+              .textContent.toLowerCase();
+            let email = row
+              .querySelector("td:nth-child(2)")
+              .textContent.toLowerCase();
+            let mobile = row
+              .querySelector("td:nth-child(3)")
+              .textContent.toLowerCase();
+
+            if (
+              name.includes(searchValue) ||
+              email.includes(searchValue) ||
+              mobile.includes(searchValue)
+            ) {
+              row.style.display = "";
+            } else {
+              row.style.display = "none";
+            }
+          });
+        });
+    </script>
+
+  </div>
+</div>
+</div>
+
+<%- include('../layouts/adminFooter') %>

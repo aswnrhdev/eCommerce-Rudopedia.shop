@@ -1,0 +1,332 @@
+<%- include('../layouts/header') %>
+<main class="main">
+   <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+      <div class="container d-flex align-items-center">
+         <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item" ><a href="/shop">Products</a></li>
+         </ol>
+         <nav class="product-pager ml-auto" aria-label="Product">
+            <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
+            <i class="icon-angle-left"></i>
+            <span>Prev</span>
+            </a>
+            <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
+            <span>Next</span>
+            <i class="icon-angle-right"></i>
+            </a>
+         </nav>
+         <!-- End .pager-nav -->
+      </div>
+      <!-- End .container -->
+   </nav>
+   <!-- End .breadcrumb-nav -->
+   <div class="page-content">
+      <div class="container">
+         <% if (product.isListed) { %>
+         <div class="product-details-top">
+            <div class="row">
+               <div class="col-md-6">
+                  <div class="product-gallery product-gallery-vertical">
+                     <div class="row">
+                        <figure class="product-main-image">
+                           <img id="product-zoom" src="data:<%= product.image[0].contentType %>;base64, <%= product.image[0].data.toString('base64') %>" data-zoom-image="data:<%= product.image[0].contentType %>;base64, <%= product.image[0].data.toString('base64') %>"  alt="product image"  />
+                           <!-- <div id="product-zoom-container" class="zoom">
+                              </div> -->
+                           <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                           <i class="icon-arrows"></i>
+                           </a>
+                        </figure>
+                        <div id="product-zoom-gallery" class="product-image-gallery">
+                           <% product.image.forEach((img, index) => { %>
+                           <div class="d-inline-block">
+                              <a class="product-gallery-item <%= index === 0 ? 'active' : '' %>"
+                                 href="#"
+                                 data-image="data:<%= img.contentType %>;base64, <%= img.data.toString('base64') %>"
+                                 data-zoom-image="data:<%= img.contentType %>;base64, <%= img.data.toString('base64') %>">
+                              <img src="data:<%= img.contentType %>;base64, <%= img.data.toString('base64') %>"
+                                 alt="Product image <%= index + 1 %>"
+                                 class="img-fluid" />
+                              </a>
+                           </div>
+                           <% }) %>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- End .product-gallery -->
+               </div>
+               <!-- End .col-md-6 -->
+               <div class="col-md-6">
+                  <div class="product-details">
+                     <h1 class="product-title"><%= product.name %></h1>
+                     <div class="ratings-container">
+                        <div class="ratings">
+                           <div class="ratings-val" style="width: 80%;"></div>
+                           <!-- End .ratings-val -->
+                        </div>
+                        <!-- End .ratings -->
+                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
+                     </div>
+                     <!-- End .rating-container -->
+                     <div class="product-price">
+                        ₹<%= product.price %>
+                     </div>
+                     <div class="product-content">
+                        <p><%= product.description %></p>
+                     </div>
+                     <!-- End .product-content -->
+                     <div class="product-details-action">
+                        <a href="#" class="btn-product btn-cart addToCartBtn" data-prodId="<%= product._id %>"><span>add to cart</span></a>
+                        <div class="details-action-wrapper">
+                           <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                           <!-- <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a> -->
+                        </div>
+                        <!-- End .details-action-wrapper -->
+                     </div>
+                     <!-- End .product-details-action -->
+                     <div class="product-details-footer">
+                        <div class="product-cat">
+                           <span>Category:</span>
+                           <a href="#"><%= product.category %></a>
+                        </div>
+                        <!-- End .product-cat -->
+                        <div class="social-icons social-icons-sm">
+                           <span class="social-label">Share:</span>
+                           <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                           <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                           <a href="#" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                           <a href="#" class="social-icon" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                        </div>
+                     </div>
+                     <!-- End .product-details-footer -->
+                  </div>
+                  <!-- End .product-details -->
+               </div>
+               <!-- End .col-md-6 -->
+            </div>
+            <!-- End .row -->
+         </div>
+         <!-- End .product-details-top -->
+      </div>
+      <!-- End .owl-carousel -->
+   </div>
+   <!-- End .container -->
+   <% } %>
+   </div><!-- End .page-content -->
+</main>
+<!-- End .main -->
+<footer class="footer">
+   <div class="footer-middle">
+      <div class="container">
+         <div class="row">
+            <div class="col-sm-6 col-lg-3">
+               <div class="widget widget-about">
+                  <img src="/assets/images/logo1.png" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                  <p>Rucci, known for rare shoes since 1997, offers global reach with trending styles and unique collections.</p>
+                  <div class="social-icons">
+                     <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                     <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                     <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                     <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                     <a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+                  </div>
+                  <!-- End .soial-icons -->
+               </div>
+               <!-- End .widget about-widget -->
+            </div>
+            <!-- End .col-sm-6 col-lg-3 -->
+            <div class="col-sm-6 col-lg-3">
+               <div class="widget">
+                  <h4 class="widget-title">Useful Links</h4>
+                  <!-- End .widget-title -->
+                  <ul class="widget-list">
+                     <li><a href="about.html">About Molla</a></li>
+                     <li><a href="#">How to shop on Molla</a></li>
+                     <li><a href="#">FAQ</a></li>
+                     <li><a href="contact.html">Contact us</a></li>
+                     <li><a href="/signin">Log in</a></li>
+                  </ul>
+                  <!-- End .widget-list -->
+               </div>
+               <!-- End .widget -->
+            </div>
+            <!-- End .col-sm-6 col-lg-3 -->
+            <div class="col-sm-6 col-lg-3">
+               <div class="widget">
+                  <h4 class="widget-title">Customer Service</h4>
+                  <!-- End .widget-title -->
+                  <ul class="widget-list">
+                     <li><a href="#">Payment Methods</a></li>
+                     <li><a href="#">Money-back guarantee!</a></li>
+                     <li><a href="#">Returns</a></li>
+                     <li><a href="#">Shipping</a></li>
+                     <li><a href="#">Terms and conditions</a></li>
+                     <li><a href="#">Privacy Policy</a></li>
+                  </ul>
+                  <!-- End .widget-list -->
+               </div>
+               <!-- End .widget -->
+            </div>
+            <!-- End .col-sm-6 col-lg-3 -->
+            <div class="col-sm-6 col-lg-3">
+               <div class="widget">
+                  <h4 class="widget-title">My Account</h4>
+                  <!-- End .widget-title -->
+                  <ul class="widget-list">
+                     <li><a href="/login">Sign Up</a></li>
+                     <li><a href="cart.html">View Cart</a></li>
+                     <li><a href="#">My Wishlist</a></li>
+                     <li><a href="#">Track My Order</a></li>
+                     <li><a href="#">Help</a></li>
+                  </ul>
+                  <!-- End .widget-list -->
+               </div>
+               <!-- End .widget -->
+            </div>
+            <!-- End .col-sm-6 col-lg-3 -->
+         </div>
+         <!-- End .row -->
+      </div>
+      <!-- End .container -->
+   </div>
+   <!-- End .footer-middle -->
+   <div class="footer-bottom">
+      <div class="container">
+         <p class="footer-copyright">Copyright © 2024 Rudo Store. All Rights Reserved.</p>
+         <!-- End .footer-copyright -->
+         <figure class="footer-payments">
+            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+         </figure>
+         <!-- End .footer-payments -->
+      </div>
+      <!-- End .container -->
+   </div>
+   <!-- End .footer-bottom -->
+</footer>
+<!-- End .footer -->
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+<!-- Sticky Bar -->
+<div class="sticky-bar">
+   <div class="container">
+      <div class="row">
+         <div class="col-6">
+            <figure class="product-media">
+               <a href="/productDetails/<%= product._id %>">
+               <img src="data:<%= product.image[0].contentType %>;base64, <%= product.image[0].data.toString('base64') %>" alt="Product image" class="product-image">
+               </a>
+            </figure>
+            <!-- End .product-media -->
+            <h4 class="product-title"><a href="/productDetails/<%= product._id %>"><%= product.name %></a></h4>
+            <!-- End .product-title -->
+         </div>
+         <!-- End .col-6 -->
+         <div class="col-6 justify-content-end">
+            <div class="product-details-action">
+               <a href="#" class="btn-product btn-cart addToCartBtn" data-prodId="<%= product._id %>"><span>add to cart</span></a>
+               <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+            </div>
+            <!-- End .product-details-action -->
+         </div>
+         <!-- End .col-6 -->
+      </div>
+      <!-- End .row -->
+   </div>
+   <!-- End .container -->
+</div>
+<!-- End .sticky-bar -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+   const addToCartBtn = document.querySelectorAll('.addToCartBtn')
+   addToCartBtn.forEach((btn)=>{
+   btn.addEventListener('click',addTocartFn)
+   })
+   
+   async function addTocartFn (){
+   try {
+      const productId = this.getAttribute('data-prodId')
+      
+      const response = await fetch ('/addToCart',{
+          method:'POST',
+          headers: {
+              'Content-Type':'application/json'
+          },
+          body: JSON.stringify({productId})
+      }
+      ) 
+   
+      const data = await response.json()
+      if(data.message === 'This product has already been added to your cart.' ){
+          Swal.fire({
+          icon: 'warning',
+          title: data.message,
+          // text: data.message,
+          timer:3000
+      });
+      }else if(data.message === 'Item successfully added to your cart.'){
+          Swal.fire({
+          icon: 'success',
+          title: data.message,
+          // text: data.message,
+          timer:3000
+      })
+      }else if(data.message === 'Cart created successfully.'){
+          Swal.fire({
+              icon: 'success',
+              title: data.message,
+              timer:3000
+          })
+      }
+   } catch (error) {
+      console.log('add to cart not wokring');
+   }
+   }
+   
+   
+   
+   const addToWishlistBtn = document.querySelectorAll('.addToWishlistBtn');
+   addToWishlistBtn.forEach((btn) => {
+   btn.addEventListener('click', addToWishlistFn);
+   });
+   
+   async function addToWishlistFn() {
+   try {
+      const productId = this.getAttribute('data-prodId');
+   
+      const response = await fetch('/addToWishlist', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productId })
+      });
+   
+      const data = await response.json();
+      if (data.message) {
+          alert(data.message);
+      }
+   } catch (error) {
+      console.log('Add to wishlist not working');
+   }
+   }
+</script>
+<!-- jQuery (required for Elevate Zoom) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Elevate Zoom JavaScript -->
+<script src="/assets/js/jquery.elevateZoom.min.js"></script>
+<!-- Plugins JS File -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/jquery.hoverIntent.min.js"></script>
+<script src="/assets/js/jquery.waypoints.min.js"></script>
+<script src="/assets/js/superfish.min.js"></script>
+<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/assets/js/jquery.elevateZoom.min.js"></script>
+<script src="/assets/js/bootstrap-input-spinner.js"></script>
+<script src="/assets/js/jquery.magnific-popup.min.js"></script>
+<!-- Main JS File -->
+<script src="/assets/js/main.js"></script>
+</body>
+<!-- molla/product.html  22 Nov 2019 09:55:05 GMT -->
+</html>

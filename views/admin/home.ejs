@@ -1,0 +1,481 @@
+<%- include('../layouts/adminHeader') %>
+
+<!-- Main panel containing various sections -->
+<div class="main-panel">
+   <div class="content-wrapper">
+      <div>
+         <!-- Statistics section -->
+         <div class="row">
+            <!-- User Count Card -->
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="d-flex align-items-center align-self-start">
+                              <h3 class="mb-0">
+                                 <%= userCount %>
+                              </h3>
+                              <p class="text-success ms-2 mb-0 font-weight-medium">
+                                 <%= averageUsers.toFixed(2) %>%
+                              </p>
+                           </div>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon icon-box-success">
+                              <span class="<%= iconClass %> icon-item"></span>
+                           </div>
+                        </div>
+                     </div>
+                     <h6 class="text-muted font-weight-normal">Number of Users</h6>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Daily Income Card -->
+            <% const targetIncome=20000; const incomeDifference=((dailyIncome - targetIncome) / targetIncome) * 100;
+               const incomePercentage=incomeDifference.toFixed(2); const isIncomeAboveTarget=dailyIncome>=
+               targetIncome;
+               %>
+            <% if (dailyIncome > 0) { %>
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="d-flex align-items-center align-self-start">
+                              <h3 class="mb-0">
+                                 <%= dailyIncome.toFixed(2) %>
+                              </h3>
+                              <% if (isIncomeAboveTarget) { %>
+                              <p class="text-success ms-2 mb-0 font-weight-medium">+<%= incomePercentage %>%</p>
+                              <% } else { %>
+                              <p class="text-danger ms-2 mb-0 font-weight-medium">
+                                 <%= incomePercentage %>%
+                              </p>
+                              <% } %>
+                           </div>
+                           <h6 class="text-muted font-weight-normal">Daily Income</h6>
+                        </div>
+                        <div class="col-3">
+                           <% if (isIncomeAboveTarget) { %>
+                           <div class="icon icon-box-success">
+                              <span class="mdi mdi-arrow-top-right icon-item"></span>
+                           </div>
+                           <% } else { %>
+                           <div class="icon icon-box-danger">
+                              <span class="mdi mdi-arrow-bottom-left icon-item"></span>
+                           </div>
+                           <% } %>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% } else { %>
+            <!-- No Income Card -->
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="d-flex align-items-center align-self-start">
+                              <h3 class="mb-0">0</h3>
+                              <p class="text-danger ms-2 mb-0 font-weight-medium">Not available</p>
+                           </div>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon icon-box-danger">
+                              <span class="mdi mdi-arrow-bottom-left icon-item"></span>
+                           </div>
+                        </div>
+                        <h6 class="text-muted font-weight-normal">No income yet</h6>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <% } %>
+
+            <!-- Total Revenue Card -->
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="d-flex align-items-center align-self-start">
+                              <h3 class="mb-0">
+                                 <%= totalRevenue.toFixed(2) %>
+                              </h3>
+                              <p class="text-warning ms-2 mb-0 font-weight-medium">INR</p>
+                           </div>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon icon-box-warning">
+                              <span class="mdi mdi-currency-inr icon-item"></span>
+                           </div>
+                        </div>
+                     </div>
+                     <h6 class="text-muted font-weight-normal">Total Revenue </h6>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Pending Orders Card -->
+            <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-9">
+                           <div class="d-flex align-items-center align-self-start">
+                              <h3 class="mb-0">
+                                 <%= pendingOrdersCount %>
+                              </h3>
+                           </div>
+                           <h6 class="text-muted font-weight-normal">Pending Orders</h6>
+                        </div>
+                        <div class="col-3">
+                           <div class="icon icon-box-danger">
+                              <span class="mdi mdi-alert-box icon-item"></span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Charts section -->
+         <div class="row">
+            <!-- Bar Chart -->
+            <div class="col-lg-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="container">
+                        <canvas id="chartContainer" width="800" height="400"></canvas>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Doughnut Chart -->
+            <div class="col-lg-6 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <h4 class="card-title">Payment Method</h4>
+                     <canvas id="doughnutChart" style="height:250px"></canvas>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Additional Charts section -->
+         <div class="row">
+            <!-- Horizontal Bar Chart -->
+            <div class="col-lg-9 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="container">
+                        <canvas id="barChart" width="400" height="400"></canvas>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <!-- Pie Chart -->
+            <div class="col-lg-3 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="container"></div>
+                     <canvas id="pieChart" width="400" height="400"></canvas>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <!-- Sales Report section -->
+         <div class="card">
+            <div class="card-body">
+               <h3 class="card-title">Sales Report</h3>
+               <p>Detailed order reports with customizable date filters from the start to end dates.</p>
+
+               <!-- Sales Report Form -->
+               <div class="salesReport">
+                  <form action="/sales-report" method="GET">
+                     <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                        <input class="btn btn-outline-secondary" style="margin-right: 5px;" type="date" id="startDate"
+                           name="startDate">
+                        <input class="btn btn-outline-secondary" style="margin-right: 5px;" type="date" id="endDate"
+                           name="endDate">
+                        <button style="padding: 8px;" class="btn btn-outline-success" type="submit">Generate
+                           Report</button>
+                     </div>
+                  </form>
+
+                  <!-- Order Table -->
+                  <div class="table-responsive">
+                     <table class="table table-bordered" style="color: white;">
+                        <thead>
+                           <tr>
+                              <th style="color: green;">SI No</th>
+                              <th style="color: green;">Order ID</th>
+                              <th style="color: green;">Name</th>
+                              <th style="color: green;">Ordered Date</th>
+                              <th style="color: green;">Time</th>
+                              <th style="color: green;">Product Name</th>
+                              <th style="color: green;">Quantity</th>
+                              <th style="color: green;">Total</th>
+                              <th style="color: green;">Payment Method</th>
+                              <th style="color: green;">Payment Status</th>
+                              <th style="color: green;">Order Status</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <!-- Iterate over orders to populate table rows -->
+                           <% if (orders && orders.length > 0) { %>
+                           <% orders.forEach((order, index)=> { %>
+                           <tr>
+                              <td>
+                                 <%= index + 1 %>
+                              </td>
+                              <td>
+                                 <%= order._id %>
+                              </td>
+                              <td>
+                                 <%= order.userId.firstName %>
+                                 <%= order.userId.lastName %>
+                              </td>
+                              <td>
+                                 <%= order.orderDate.toDateString() %>
+                              </td>
+                              <td>
+                                 <%= order.orderDate.toLocaleTimeString() %>
+                              </td>
+                              <td>
+                                 <% order.products.forEach(product=> { %>
+                                 <%= product.productId.name %> <br>
+                                 <% }) %>
+                              </td>
+                              <td>
+                                 <% order.products.forEach(product=> { %>
+                                 <%= product.quantity %> <br>
+                                 <% }) %>
+                              </td>
+                              <td>
+                                 <%= order.totalAmount %>
+                              </td>
+                              <td>
+                                 <%= order.paymentMethod %>
+                              </td>
+                              <td>
+                                 <%= order.paymentStatus %>
+                              </td>
+                              <td>
+                                 <%= order.OrderStatus %>
+                              </td>
+                           </tr>
+                           <% }) %>
+                           <% } else { %>
+                           <!-- Display message if no orders found -->
+                           <tr>
+                              <td colspan="11">No orders found for the selected date range.</td>
+                           </tr>
+                           <% } %>
+                        </tbody>
+                     </table>
+                  </div>
+
+                  <!-- Download button for the sales report -->
+                  <a href="/generate-pdf?startDate=<%= startDate %>&endDate=<%= endDate %>" target="_blank" download>
+                     <button class="btn btn-outline-success" style="margin-top: 15px; padding: 10px;">Download</button>
+                  </a>
+               </div>
+            </div>
+         </div>
+
+         <!-- Audience Map section -->
+         <div class="row" style="margin-top: 20px;">
+            <div class="col-12">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-md-12">
+                           <div id="audience-map" class="vector-map"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- JavaScript section for chart rendering -->
+<script>
+   // Bar Chart
+   document.addEventListener("DOMContentLoaded", function () {
+     const ctx = document.getElementById('barChart').getContext('2d');
+     // Parse monthly sales data from the server
+     const monthlySales = JSON.parse('<%- monthlySales %>'); 
+     const months = monthlySales.map(data => data.month); 
+     const productsSold = monthlySales.map(data => data.productsSold); 
+     // Data for the bar chart
+     const data = {
+       labels: months,
+       datasets: [{
+         label: 'Products Sold',
+         data: productsSold,
+         backgroundColor: 'rgba(54, 162, 235, 0.8)',
+         borderColor: 'rgba(54, 162, 235, 1)',
+         borderWidth: 1
+       }]
+     };
+     // Options for the bar chart
+     const options = {
+       responsive: true,
+       maintainAspectRatio: false,
+       title: {
+         display: true,
+         text: 'Products Sold by Month'
+       },
+       scales: {
+         yAxes: [{
+           ticks: {
+             beginAtZero: true,
+             suggestedMax: 100 
+           }
+         }]
+       },
+       legend: {
+         display: false
+       }
+     };
+     // Create the bar chart
+     const barChart = new Chart(ctx, {
+       type: 'bar',
+       data: data,
+       options: options
+     });
+   });
+
+   // Doughnut Chart
+   document.addEventListener("DOMContentLoaded", function () {
+     const ctx = document.getElementById('pieChart').getContext('2d');
+     // Parse top product data from the server
+     const topProductNames = JSON.parse('<%- topProductNames %>');
+     const soldQuantities = JSON.parse('<%- soldQuantities %>');
+     const productNames = topProductNames.map(product => product.name);
+     // Data for the doughnut chart
+     const data = {
+       labels: productNames,
+       datasets: [{
+         label: 'Top Sold Products',
+         data: soldQuantities,
+         backgroundColor: [
+           'rgba(255, 99, 132, 0.8)',
+           'rgba(54, 162, 235, 0.8)',
+           'rgba(75, 192, 192, 0.8)',
+           'rgba(255, 205, 86, 0.8)',
+           'rgba(153, 102, 255, 0.8)',
+           'rgba(255, 159, 64, 0.8)'
+         ],
+         borderColor: [
+           'rgba(255, 99, 132, 1)',
+           'rgba(54, 162, 235, 1)',
+           'rgba(75, 192, 192, 1)',
+           'rgba(255, 205, 86, 1)',
+           'rgba(153, 102, 255, 1)',
+           'rgba(255, 159, 64, 1)'
+         ],
+         borderWidth: 1
+       }]
+     };
+     // Options for the doughnut chart
+     const options = {
+       responsive: true,
+       maintainAspectRatio: false,
+       title: {
+         display: true,
+         text: 'Top Sold Products'
+       },
+       legend: {
+         display: true,
+         position: 'bottom'
+       }
+     };
+     // Create the doughnut chart
+     const pieChart = new Chart(ctx, {
+       type: 'pie',
+       data: data,
+       options: options
+     });
+   });
+
+   // Line Chart
+   document.addEventListener("DOMContentLoaded", function () {
+     const ctx = document.getElementById("chartContainer").getContext("2d");
+     // Parse amounts collected today data from the server
+     const amountsCollectedToday = JSON.parse('<%- amountsCollectedToday %>'); 
+     // Data for the line chart
+     const chartData = {
+       labels: Array.from({ length: amountsCollectedToday.length }, (_, i) => i), 
+       datasets: [
+         {
+           label: "Amount Collected Today",
+           data: amountsCollectedToday,
+           backgroundColor: "rgba(54, 162, 235, 0.2)",
+           borderColor: "rgba(54, 162, 235, 1)",
+           borderWidth: 2,
+           pointRadius: 5,
+           pointBackgroundColor: "rgba(54, 162, 235, 1)",
+           pointBorderColor: "#fff",
+           pointHoverRadius: 8,
+           pointHoverBackgroundColor: "#fff",
+           pointHoverBorderColor: "rgba(54, 162, 235, 1)",
+           lineTension: 0,
+         },
+       ],
+     };
+     // Options for the line chart
+     const chartOptions = {
+       responsive: true,
+       scales: {
+         yAxes: [
+           {
+             scaleLabel: {
+               display: true,
+               labelString: "Amount Collected Today",
+             },
+             ticks: {
+               beginAtZero: true,
+               max: 50000, 
+             },
+           },
+         ],
+         xAxes: [
+           {
+             display: false,
+           },
+         ],
+       },
+       legend: {
+         display: true,
+         position: "top",
+       },
+     };
+     // Create the line chart
+     const lineChart = new Chart(ctx, {
+       type: "line",
+       data: chartData,
+       options: chartOptions,
+     });
+   });
+
+   // Payment Methods Data
+   var paymentMethods = {
+     OnlinePayment: <%= paymentMethods.OnlinePayment || 0 %>,
+     CashOnDelivery: <%= paymentMethods.CashOnDelivery || 0 %>,
+   };
+</script>
+
+<%- include('../layouts/adminFooter') %>

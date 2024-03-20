@@ -1,0 +1,109 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <!-- Card for displaying categories -->
+      <div class="card">
+         <!-- Card body for displaying categories -->
+         <div class="card-body">
+            <!-- Form for adding a new category -->
+            <div class="col-12 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <h4 class="card-title">ADD CATEGORY</h4>
+                     <!-- Category addition form -->
+                     <form
+                        id="categoryForm"
+                        class="forms-sample"
+                        action="/admin/saveCategory"
+                        method="post">
+                        <div class="form-group">
+                           <label for="exampleInputName1">Name</label>
+                           <input
+                              type="text"
+                              class="form-control"
+                              id="exampleInputName1"
+                              placeholder="Name"
+                              name="categoryName"
+                              style="color: white; /* Set the placeholder color */" />
+                        </div>
+                        <div class="form-group">
+                           <label for="exampleTextarea1">Textarea</label>
+                           <textarea
+                              class="form-control"
+                              id="exampleTextarea1"
+                              rows="4"
+                              name="description"
+                              style="
+                              color: white; /* Set the placeholder color */
+                              "></textarea>
+                        </div>
+                        <!-- Submit and cancel buttons -->
+                        <button
+                           type="submit"
+                           class="btn btn-outline-primary me-2"
+                           style="height: 35px">
+                        Submit
+                        </button>
+                        <button class="btn btn-outline-secondary" style="height: 35px">
+                        Cancel
+                        </button>
+                     </form>
+                     <!-- Alert message area -->
+                     <div
+                        id="alertMessage"
+                        class="alert alert-danger"
+                        style="display: none; margin-top: 20px"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- Existing HTML content -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- JavaScript for handling form submission using AJAX -->
+<script>
+   $(document).ready(function () {
+     $("#categoryForm").submit(function (event) {
+       event.preventDefault(); // Prevent the default form submission
+   
+       const formData = $(this).serialize();
+   
+       // AJAX request to handle form submission
+       $.ajax({
+         type: "POST",
+         url: "/admin/saveCategory",
+         data: formData,
+         success: function (response) {
+           if (response.message) {
+             const alertMessage = $("#alertMessage");
+             alertMessage.text(response.message);
+   
+             // Adjusted message comparison
+             if (response.message === "The category already exists.") {
+               alertMessage
+                 .removeClass("alert-success")
+                 .addClass("alert-danger");
+             } else {
+               alertMessage
+                 .removeClass("alert-danger")
+                 .addClass("alert-success");
+               // Redirect to the category page after successful submission
+               setTimeout(function () {
+                 window.location.href = "/admin/category";
+               }, 3000);
+             }
+             alertMessage.show();
+           }
+         },
+         error: function (error) {
+           console.error("Error:", error);
+         },
+       });
+     });
+   });
+</script>
+<!-- main-panel ends -->
+<%- include('../layouts/adminFooter') %>

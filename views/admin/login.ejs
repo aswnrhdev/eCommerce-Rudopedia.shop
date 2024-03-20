@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Rudo</title>
+  <meta name="keywords" content="HTML5 Template" />
+  <meta name="description" content="Molla - Bootstrap eCommerce Template" />
+  <meta name="author" content="p-themes" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icon.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icon.png" />
+  <link rel="manifest" href="/assets/images/icons/site.html" />
+  <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#666666" />
+  <link rel="shortcut icon" href="/assets/images/icons/favicon.ico" />
+  <meta name="apple-mobile-web-app-title" content="Molla" />
+  <meta name="application-name" content="Molla" />
+  <meta name="msapplication-TileColor" content="#cc9966" />
+  <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <main class="main">
+      <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Admin Login Page</a></li>
+          </ol>
+        </div>
+      </nav>
+      <div class="login-page bg-image pt-6 pb-6 pt-md-12 pb-md-10 pt-lg-17 pb-lg-17" style="
+               background-image: url('/assets/images/retro.jpg');
+               ">
+        <div class="container">
+          <div class="form-box">
+            <div class="form-tab">
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
+                  <form id="login-form" action="" method="post">
+                    <% if (typeof message !=='undefined' ) { %>
+                      <div class="alert alert-danger">
+                        <%= message %>
+                      </div>
+                      <% } %>
+                        <div class="form-group">
+                          <label for="signin-email-2">Username or email address *</label>
+                          <input type="email" class="form-control" id="signin-email-2" name="email" required />
+                        </div>
+                        <div class="form-group">
+                          <label for="signin-password-2">Password *</label>
+                          <input type="password" class="form-control" id="signin-password-2" name="password" required />
+                        </div>
+                        <div class="form-footer">
+                          <button type="submit" class="btn btn-outline-primary-2">
+                            <span>LOG IN</span>
+                            <i class="icon-long-arrow-right"></i>
+                          </button>
+                        </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <button id="scroll-top" title="Back to Top">
+    <i class="icon-arrow-up"></i>
+  </button>
+  <script src="/assets/js/jquery.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/jquery.hoverIntent.min.js"></script>
+  <script src="/assets/js/jquery.waypoints.min.js"></script>
+  <script src="/assets/js/superfish.min.js"></script>
+  <script src="/assets/js/owl.carousel.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

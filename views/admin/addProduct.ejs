@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- Required meta tags -->
+      <!-- Meta tags for character set, viewport, and title -->
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <title>Rudo</title>
+      <!-- plugins:css -->
+      <!-- Stylesheets for plugins -->
+      <link rel="stylesheet" href="/assetsAdmin/vendors/mdi/css/materialdesignicons.min.css" />
+      <link rel="stylesheet" href="/assetsAdmin/vendors/css/vendor.bundle.base.css" />
+      <!-- endinject -->
+      
+      <!-- Plugin css for this page -->
+      <!-- Additional stylesheets for specific plugins -->
+      <link rel="stylesheet" href="/assetsAdmin/vendors/jvectormap/jquery-jvectormap.css" />
+      <link rel="stylesheet" href="/assetsAdmin/vendors/flag-icon-css/css/flag-icon.min.css" />
+      <link rel="stylesheet" href="/assetsAdmin/vendors/owl-carousel-2/owl.carousel.min.css" />
+      <link rel="stylesheet" href="/assetsAdmin/vendors/owl-carousel-2/owl.theme.default.min.css" />
+      <!-- End plugin css for this page -->
+      <!-- Icons and manifest for the website -->
+      <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icons/favicon-16x16.png" />
+      <link rel="manifest" href="/assets/images/icons/site.html" /> 
+      <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#666666" />
+      <link rel="shortcut icon" href="/assets/images/icons/favicon.ico" />
+      <meta name="apple-mobile-web-app-title" content="Molla" />
+      <meta name="application-name" content="Molla" />
+      <meta name="msapplication-TileColor" content="#cc9966" />
+      <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml" />
+      <meta name="theme-color" content="#ffffff" />
+      <!-- inject:css -->
+      <!-- Injected CSS styles -->
+      <!-- endinject -->
+      <!-- Layout styles -->
+      <!-- Styles for the layout -->
+      <link rel="stylesheet" href="/assetsAdmin/css/style.css" />
+      <!-- End layout styles -->
+      <!-- <link rel="shortcut icon" href="/assetsAdmin/images/favicon.png" /> -->
+      <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/icon.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/icon.png">
+      <!-- Cropper.js styles and scripts -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.css"
+         integrity="sha512-bs9fAcCAeaDfA4A+NiShWR886eClUcBtqhipoY5DM60Y1V3BbVQlabthUBal5bq8Z8nnxxiyb1wfGX2n76N1Mw=="
+         crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.js"
+         integrity="sha512-Zt7blzhYHCLHjU0c+e4ldn5kGAbwLKTSOTERgqSNyTB50wWSI21z0q6bn/dEIuqf6HiFzKJ6cfj2osRhklb4Og=="
+         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   </head>
+   <body>
+      <!-- Main container for the page -->
+      <div class="container-scroller">
+         <!-- Banner for the page -->
+         <div class="row p-0 m-0 proBanner" id="proBanner">
+            <div class="col-md-12 p-0 m-0">
+               <!-- Content for the banner (commented out) -->
+               <!-- <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <a href="https://www.bootstrapdash.com/product/corona-free/" ><i class="mdi mdi-home me-3 text-white"></i ></a>
+                    <button id="bannerClose" class="btn border-0 p-0"><i class="mdi mdi-close text-white me-0"></i></button>
+                  </div>
+                  </div> -->
+            </div>
+         </div>
+         <!-- Sidebar navigation -->
+         <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <!-- Brand/logo for the sidebar -->
+            <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+               <a class="sidebar-brand brand-logo" href="/admin/home"><img src="/assets/images/adlogo1.png" alt="logo" /></a>
+               <!-- <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="/assetsAdmin/images/logo-mini.svg" alt="logo" /></a> -->
+            </div>
+            <!-- Navigation items -->
+            <ul class="nav">
+               <!-- Profile information -->
+               <li class="nav-item profile">
+                  <div class="profile-desc">
+                     <div class="profile-pic">
+                        <div class="count-indicator">
+                           <img class="img-xs rounded-circle" src="/assetsAdmin/images/faces/me.png" alt="" />
+                           <span class="count bg-success"></span>
+                        </div>
+                        <div class="profile-name">
+                           <h5 class="mb-0 font-weight-normal">Aswin Ramesh</h5>
+                           <span>Rucci Admin</span>
+                        </div>
+                     </div>
+                  </div>
+               </li>
+               <!-- Navigation categories -->
+               <li class="nav-item nav-category">
+                  <span class="nav-link">Navigation</span>
+               </li>
+               <!-- Dashboard link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/home">
+                  <span class="menu-icon"><i class="mdi mdi-home"></i></span>
+                  <span class="menu-title">Dashboard</span>
+                  </a>
+               </li>
+               <!-- Users link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/users">
+                  <span class="menu-icon"><i class="mdi mdi-account"></i></span>
+                  <span class="menu-title">Users</span>
+                  </a>
+               </li>
+               <!-- Products link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/products">
+                  <span class="menu-icon"><i class="mdi mdi-table-large"></i></span>
+                  <span class="menu-title">Products</span>
+                  </a>
+               </li>
+               <!-- Add Products link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/addProduct">
+                  <span class="menu-icon"><i class="mdi mdi-arrow-up-bold"></i></span>
+                  <span class="menu-title">Add Products</span>
+                  </a>
+               </li>
+               <!-- Categories link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/category">
+                  <span class="menu-icon"><i class="mdi mdi-chart-pie"></i></span>
+                  <span class="menu-title">Categories</span>
+                  </a>
+               </li>
+               <!-- Add Category link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/addCategory">
+                  <span class="menu-icon"><i class="mdi mdi-arrow-up-bold"></i></span>
+                  <span class="menu-title">Add Category</span>
+                  </a>
+               </li>
+               <!-- Offers link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/offers">
+                  <span class="menu-icon"><i class="mdi mdi-arrow-up-bold"></i></span>
+                  <span class="menu-title">Offers</span>
+                  </a>
+               </li>
+               <!-- Coupons link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/coupon">
+                  <span class="menu-icon"><i class="mdi mdi-brightness-7"></i></span>
+                  <span class="menu-title">Coupons</span>
+                  </a>
+               </li>
+               <!-- Add Coupons link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/addCoupon">
+                  <span class="menu-icon"><i class="mdi mdi-brightness-auto"></i></span>
+                  <span class="menu-title">Add Coupons</span>
+                  </a>
+               </li>
+               <!-- Orders link -->
+               <li class="nav-item menu-items">
+                  <a class="nav-link" href="/admin/adminOrders">
+                  <span class="menu-icon"><i class="mdi mdi-bell"></i></span>
+                  <span class="menu-title">Orders</span>
+                  </a>
+               </li>
+            </ul>
+         </nav>
+         <!-- Main content wrapper -->
+         <div class="container-fluid page-body-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar p-0 fixed-top d-flex flex-row">
+               <!-- Navbar brand/logo for smaller screens -->
+               <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
+                  <a class="navbar-brand brand-logo-mini" href="index.html"><img src="/assetsAdmin/images/faces/me.png" alt="logo" /></a>
+               </div>
+               <!-- Navbar menu and search -->
+               <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+                  <!-- Toggle button for offcanvas navigation -->
+                  
+                  <!-- Search input (commented out) -->
+                  <!-- <ul class="navbar-nav w-100">
+                     <li class="nav-item w-100">
+                       <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
+                         <input type="text" class="form-control" placeholder="Search products" />
+                       </form>
+                     </li>
+                     </ul> -->
+                  <!-- Right-side navbar items (messages, notifications, and user profile) -->
+                  <ul class="navbar-nav navbar-nav-right">
+                     <!-- Messages dropdown -->
+                     <li class="nav-item dropdown border-left">
+                        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="mdi mdi-email"></i>
+                        <span class="count bg-success"></span>
+                        </a>
+                     </li>
+                     <!-- Notifications dropdown -->
+                     <li class="nav-item dropdown border-left">
+                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+                        <i class="mdi mdi-bell"></i>
+                        <span class="count bg-danger"></span>
+                        </a>
+                     </li>
+                     <!-- User profile dropdown -->
+                     <li class="nav-item dropdown">
+                        <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                           <div class="navbar-profile">
+                              <img class="img-xs rounded-circle" src="/assetsAdmin/images/faces/me.png" alt="" />
+                              <p class="mb-0 d-none d-sm-block navbar-profile-name">Aswin Ramesh</p>
+                              <i class="mdi mdi-menu-down d-none d-sm-block"></i>
+                           </div>
+                        </a>
+                        <!-- User profile dropdown content -->
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
+                           <h6 class="p-3 mb-0">Profile</h6>
+                           <div class="dropdown-divider"></div>
+                           <!-- Logout option -->
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item preview-item" onclick="logout()">
+                              <div class="preview-thumbnail">
+                                 <div class="preview-icon bg-dark rounded-circle">
+                                    <i class="mdi mdi-logout text-danger"></i>
+                                 </div>
+                              </div>
+                              <div class="preview-item-content">
+                                 <p class="preview-subject mb-1">Log out</p>
+                              </div>
+                           </a>
+                           <!-- Logout script -->
+                           <script>
+                              function logout() {
+                                // Redirect to the logout page or perform logout actions here
+                                window.location.href = "/admin/logout";
+                              }
+                           </script>
+                           <!-- End logout script -->
+                           <!-- Advanced settings (commented out) -->
+                           <!-- <div class="dropdown-divider"></div>
+                              <p class="p-3 mb-0 text-center">Advanced settings</p> -->
+                        </div>
+                     </li>
+                  </ul>
+                  <!-- Toggle button for offcanvas navigation on smaller screens -->
+                  <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                  <span class="mdi mdi-format-line-spacing"></span>
+                  </button>
+               </div>
+            </nav>
+            <!-- Main content area -->
+            <div class="main-panel">
+               <div class="content-wrapper">
+                  <!-- Card for adding products -->
+                  <div class="card">
+                     <!-- Card body for displaying products -->
+                     <div class="card-body">
+                        <!-- Additional markup for the "Add Products" form -->
+                        <div class="col-12 grid-margin stretch-card">
+                           <div class="card">
+                              <div class="card-body">
+                                 <h4 class="card-title">ADD PRODUCTS</h4>
+                                 <!-- Form for adding products -->
+                                 <form id="myForm" method="post" class="forms-sample" enctype="multipart/form-data">
+                                    <!-- Product name input -->
+                                    <div class="form-group">
+                                       <label for="name">Name</label>
+                                       <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="name" style="color: white" />
+                                    </div>
+                                    <!-- Row for size and quantity selection -->
+                                    <div class="row">
+                                       
+                                       <!-- Quantity selection dropdown -->
+                                       <div class="col-md-6">
+                                          <div class="form-group">
+                                             <label for="quantity">Stock</label>
+                                             <select class="form-control" id="quantitySelect" name="quantity" style="color: white">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Category selection dropdown -->
+                                    <div class="row">
+                                       <div class="col-12">
+                                          <div class="form-group">
+                                             <label for="category">Category</label>
+                                             <select class="form-control" id="exampleSelectCategory" name="category" style="color: white">
+                                                <option>Sneakers</option>
+                                                <option>Slippers</option>
+                                                <option>Ballet flats</option>
+                                                <option>Originals</option>
+                                                <option>Sportswear</option>
+                                                <option>Running</option>
+                                             </select>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <!-- Description textarea -->
+                                    <div class="form-group">
+                                       <label for="description">Description</label>
+                                       <textarea class="form-control" id="exampleTextarea1" rows="6" name="description" style="color: white"></textarea>
+                                    </div>
+                                    <!-- Image upload input -->
+                                    <div class="form-group">
+                                       <label>Images Upload (Required 3)</label>
+                                       <div class="input-group col-md-12">
+                                          <input type="file" id="imageUpload" multiple class="form-control file-upload-info" required />
+                                       </div>
+                                       <div id="imagePreview" class="mt-4 mb-2 d-flex flex-wrap" style="max-width: 500px"></div>
+                                    </div>
+                                    <!-- Product price input -->
+                                    <div class="form-group">
+                                       <label for="price">Product Price</label>
+                                       <input type="text" class="form-control" id="productPrice" placeholder="Enter Price" aria-describedby="priceHelp" name="price" style="color: white; ::placeholder { color: white; opacity: 1; }" />
+                                       <small id="priceHelp" class="form-text text-muted">Enter the price of the product.</small>
+                                    </div>
+                                    <!-- Submit and Cancel buttons -->
+                                    <button type="submit" class="btn btn-outline-primary me-2" style="height: 35px">Submit</button>
+                                    <button class="btn btn-outline-secondary" style="height: 35px">Cancel</button>
+                                 </form>
+                                 <!-- End form for adding products -->
+                              </div>
+                           </div>
+                        </div>
+                        <!-- End additional markup -->
+                     </div>
+                     <!-- End card body -->
+                  </div>
+                  <!-- End card for adding products -->
+               </div>
+               <!-- End content wrapper -->
+               <!-- Script for handling image cropping and form submission -->
+               <script>
+                  document.addEventListener("DOMContentLoaded", function () {
+                    // Function to handle image cropping and form submission
+                    const myForm = document.getElementById("myForm");
+                    const imageUploadInput = document.getElementById("imageUpload");
+                    const imagePreviewContainer = document.getElementById("imagePreview");
+                    let croppers = [];
+                  
+                    // Event listener for image upload input
+                    imageUploadInput.addEventListener("change", function () {
+                      imagePreviewContainer.innerHTML = "";
+                  
+                      const files = this.files;
+                  
+                      // Check if more than 3 images are selected
+                      if (files.length > 3) {
+                        this.value = "";
+                        return;
+                      }
+                  
+                      // Iterate through selected files and create cropper instances
+                      for (let i = 0; i < Math.min(5, files.length); i++) {
+                        const file = files[i];
+                        const reader = new FileReader();
+                  
+                        // FileReader onload event
+                        reader.onload = function (e) {
+                          const container = document.createElement("div");
+                          container.classList.add("img-container", "mr-2");
+                  
+                          const img = document.createElement("img");
+                          img.src = e.target.result;
+                          img.classList.add("img-thumbnail");
+                  
+                          container.style.width = "200px";
+                          container.style.height = "200px";
+                  
+                          container.appendChild(img);
+                          imagePreviewContainer.appendChild(container);
+                  
+                          // Create Cropper instance for each image
+                          const cropper = new Cropper(img, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            autoCropArea: 0,
+                          });
+                  
+                          croppers.push(cropper);
+                        };
+                  
+                        // Read the file as Data URL
+                        reader.readAsDataURL(file);
+                      }
+                    });
+                  
+                    // Event listener for form submission
+                    myForm.addEventListener("submit", function (event) {
+                      event.preventDefault();
+                  
+                      // Create FormData object
+                      const formData = new FormData(this);
+                  
+                      // Iterate through croppers and append cropped images to FormData
+                      croppers.forEach((cropper, index) => {
+                        const croppedDataUrl = cropper.getCroppedCanvas().toDataURL("image/png");
+                        const blob = dataURItoBlob(croppedDataUrl);
+                  
+                        formData.append(`croppedImage`, blob, `cropped_image_${index}.png`);
+                      });
+                  
+                      // Fetch API to submit the form data
+                      fetch("/admin/addProduct", {
+                        method: "POST",
+                        body: formData,
+                      })
+                        .then((response) => {
+                          if (response.status === 200) {
+                            window.location.href = "/admin/products";
+                          }
+                        })
+                        .catch((error) => {
+                          window.location.reload();
+                        });
+                    });
+                  
+                    // Function to convert Data URI to Blob
+                    function dataURItoBlob(dataURI) {
+                      const byteString = atob(dataURI.split(",")[1]);
+                      const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+                      const ab = new ArrayBuffer(byteString.length);
+                      const ia = new Uint8Array(ab);
+                      for (let i = 0; i < byteString.length; i++) {
+                        ia[i] = byteString.charCodeAt(i);
+                      }
+                      return new Blob([ab], { type: mimeString });
+                    }
+                  });
+               </script>
+               <!-- End script -->
+            </div>
+            <!-- End main panel -->
+         </div>
+         <!-- End page body wrapper -->
+      </div>
+      <!-- End container scroller -->
+      <!-- Vendor JS scripts -->
+      <script src="/assetsAdmin/vendors/js/vendor.bundle.base.js"></script>
+      <script src="/assetsAdmin/vendors/chart.js/Chart.min.js"></script>
+      <script src="/assetsAdmin/vendors/progressbar.js/progressbar.min.js"></script>
+      <script src="/assetsAdmin/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+      <script src="/assetsAdmin/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+      <script src="/assetsAdmin/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+      <script src="/assetsAdmin/vendors/dropify/dist/js/dropify.min.js"></script>
+      <!-- Custom JS script -->
+      <script src="/assetsAdmin/js/off-canvas.js"></script>
+      <script src="/assetsAdmin/js/hoverable-collapse.js"></script>
+      <script src="/assetsAdmin/js/misc.js"></script>
+      <script src="/assetsAdmin/js/settings.js"></script>
+      <script src="/assetsAdmin/js/dashboard.js"></script>
+      <!-- End custom JS script -->
+   </body>
+</html>

@@ -1,0 +1,44 @@
+<%- include('../layouts/adminHeader') %>
+<div class="main-panel">
+   <div class="content-wrapper">
+      <!-- Card for adding products -->
+      <div class="card">
+         <!-- Card body for displaying products -->
+         <div class="card-body">
+            <div class="col-12 grid-margin stretch-card">
+               <div class="card">
+                  <div class="card-body">
+                     <!-- Form for updating category -->
+                     <h4 class="card-title">UPDATE CATEGORY</h4>
+                     <% if (errorMessage) { %>
+                     <!-- Display error message if exists -->
+                     <div class="alert alert-danger" role="alert">
+                        <%= errorMessage %>
+                     </div>
+                     <% } %>
+                     <form id="categoryForm" class="forms-sample" action="/admin/updateCategory/<%= category._id %>" method="post">
+                        <!-- Input for category name -->
+                        <div class="form-group">
+                           <label for="exampleInputName1">Name</label>
+                           <input type="text" class="form-control" id="exampleInputName1" placeholder="Name" name="categoryName" value="<%= category.categoryName %>">
+                        </div>
+                        <!-- Textarea for category description -->
+                        <div class="form-group">
+                           <label for="exampleTextarea1">Description</label>
+                           <textarea class="form-control" id="exampleTextarea1" rows="4" name="description"><%= category.description %></textarea>
+                        </div>
+                        <!-- Submit and Cancel buttons -->
+                        <button type="submit" class="btn btn-outline-primary me-2" style="height: 35px">Submit</button>
+                        <a href="/admin/category" class="btn btn-outline-secondary" style="height: 35px">Cancel</a>
+                     </form>
+                     <!-- End form for updating category -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+<%- include('../layouts/adminFooter') %>
