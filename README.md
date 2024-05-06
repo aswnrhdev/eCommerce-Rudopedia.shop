@@ -78,4 +78,4 @@ Additional Tech Touches 💻
 - Load Balancing 
 - Nginx Mastery
 
-Feel free to reach out to me with any inquiries✅🧑🏻‍💻
+Feel free to reach out to me with any inquiries✅
