@@ -60,7 +60,7 @@ Assignment of offers based on either specific products or entire product categor
 Flexibility to add, edit, or delete coupons for promotional purposes.
 
 7. Order Management ✅📦
-Complete overview of rudoPedia orders, allowing admin manipulation of order statuses for efficient order processing.
+Complete overview of rudoPedia orders, allowing admin manipulation of order statuses for efficient order processing
 
 Tech Stack 💻
 - Frontend
