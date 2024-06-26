@@ -1,5 +1,5 @@
 rudoPedia.shop✅
-🚀Built with Node.js, MongoDB, and Express – a true tech marvel! 
+Built with Node.js, MongoDB, and Express – a true tech marvel! 
 #webdevelopment  #ecommercewebsite  #nodejs 
 
 Key Features 📌
