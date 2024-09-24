@@ -64,7 +64,7 @@ Complete overview of rudoPedia orders, allowing admin manipulation of order stat
 
 Tech Stack 💻
 - Frontend
-HTML5, CSS, JavaScript, Bootstrap for sleek and responsive design.
+HTML5, CSS, JavaScript, Bootstrap for sleek and responsive design
 
 - Backend
 Node.js with Express for robust server-side logic and efficient routing
