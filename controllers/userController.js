@@ -39,6 +39,7 @@ const insertUser = async (req, res) => {
 
     // Generate a random OTP and send it via email
     const otp = generateOTP();
+    console.log(otp);
     sendMail(email, "OTP Verification", `Your OTP is: ${otp}`);
 
     // Generate a random referral code if not provided

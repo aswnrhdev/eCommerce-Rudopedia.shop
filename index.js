@@ -10,10 +10,12 @@ const adminRoute = require("./routes/adminRoute");
 const userRoute = require("./routes/userRoute");
 
 const MongoDBStore = require("connect-mongodb-session")(session);
-mongoose.connect("mongodb+srv://aswnrh:Aswin123@rudoshop.eh8gexg.mongodb.net/");
+// mongoose.connect("mongodb+srv://aswnrh:Aswin123@rudoshop.eh8gexg.mongodb.net/");
+mongoose.connect(process.env.mongo_DB)
 
 const store = new MongoDBStore({
-  uri: "mongodb+srv://aswnrh:Aswin123@rudoshop.eh8gexg.mongodb.net/",
+  // uri: "mongodb+srv://aswnrh:Aswin123@rudoshop.eh8gexg.mongodb.net/",
+  uri: process.env.mongo_DB,
   collection: "sessions",
 });
 
