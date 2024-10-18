@@ -73,9 +73,6 @@ const logout = async (req, res) => {
 };
 
 
-DASHBOARD OF ADMIN
-
-
 const loadHome = async (req, res) => {
   try {
     const userCount = await User.countDocuments({ is_admin: 0 });
