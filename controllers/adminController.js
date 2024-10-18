@@ -73,7 +73,7 @@ const logout = async (req, res) => {
 };
 
 
-//CODES RELATED TO DASHBOARD OF ADMIN
+DASHBOARD OF ADMIN
 
 
 const loadHome = async (req, res) => {
